@@ -1,0 +1,9 @@
+package protobuf.socketrpc;
+
+option java_package = "com.wangyin.cds.server.protocol";
+option java_outer_classname = "NodeProtocol";
+
+message NRequest{
+}
+message NResponse{
+}
