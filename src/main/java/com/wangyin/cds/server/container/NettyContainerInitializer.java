@@ -45,6 +45,7 @@ public class NettyContainerInitializer extends
 		ResourceConfig app = new ResourceConfig();
 		this.configuration.put(PROP_APPLICATION, app);
 		app.packages("com.wangyin.cds.server.container.sample");
+		app.packages("com.wangyin.cds.server.modules.monitor");
 		app.register(ObjectMapperProvider.class);
 		app.register(JacksonFeature.class);
 		try {

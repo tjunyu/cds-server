@@ -19,11 +19,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.wangyin.cds.server.container.NettyContainerInitializer;
 import com.wangyin.cds.server.modules.INodeModule;
 import com.wangyin.cds.server.modules.ServerModule;
+import com.wangyin.cds.server.persistence.PersistenceManager;
 
 /**
  * 抽象的服务器节点，用作Master或者Slave
  * 
- * @author david
+ * @author david wy
  * 
  */
 public abstract class ServerNode {
@@ -39,6 +40,7 @@ public abstract class ServerNode {
 	protected Map<String, INodeModule> modules = new HashMap<String, INodeModule>();
 	private ExecutorService service;
 	private NettyContainerInitializer httpInitalizer;
+	private PersistenceManager persistenceManager;
 	private final class ServerDescription{
 		EventLoopGroup boss;
 		EventLoopGroup handle;
@@ -58,6 +60,7 @@ public abstract class ServerNode {
 			throws Exception;
 
 	protected void initialize() throws Exception {
+		persistenceManager = new PersistenceManager();
 		service = Executors.newFixedThreadPool(modules.size() + 1);
 		InputStream conf_stream = getConfiguration();
 		if (conf_stream == null) {
