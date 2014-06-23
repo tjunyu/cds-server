@@ -21,5 +21,8 @@
     <mappers>
         <mapper resource="com/wangyin/cds/server/persistence/sample/model/user.xml"/>
         <mapper resource="com/wangyin/cds/server/persistence/model/DbMonitor.xml"/>
+        <mapper resource="com/wangyin/cds/server/persistence/model/DbInfo.xml"/>
+        <mapper resource="com/wangyin/cds/server/persistence/model/DbGroup.xml"/>
+        <mapper resource="com/wangyin/cds/server/persistence/model/RdbinfodbgroupDAO.xml"/>
     </mappers>
 </configuration>

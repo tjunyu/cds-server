@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.wangyin.cds.server.persistence.model.DbMonitor;
-
+/**   
+ * @author wy   
+ */
 public interface DbMonitorDAO {
 	
 	public List<DbMonitor> getPageList(@Param("start") Integer start, @Param("limit") Integer limit);

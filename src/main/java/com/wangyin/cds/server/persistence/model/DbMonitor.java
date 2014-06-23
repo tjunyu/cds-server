@@ -3,7 +3,9 @@ package com.wangyin.cds.server.persistence.model;
 import java.util.Date;
 import java.io.Serializable;
 
-
+/**   
+ * @author wy   
+ */
 public class DbMonitor implements Serializable {
 	/**
 	 * 

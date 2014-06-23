@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.wangyin.cds.server.modules.monitor.dto.RestFulDTO;
 import com.wangyin.cds.server.persistence.DbMonitorDAO;
 import com.wangyin.cds.server.persistence.PersistenceManager;
 import com.wangyin.cds.server.persistence.model.DbMonitor;
@@ -24,26 +25,31 @@ public class DbMonitorInfo {
 	@GET
 	@Path("monitorId/{monitorId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public DbMonitor getDbMonitorInfo(@PathParam("monitorId")int monitorId){
+	public RestFulDTO<DbMonitor> getDbMonitorInfo(@PathParam("monitorId")int monitorId){
 		SqlSession session = PersistenceManager.getSession().openSession();
+		RestFulDTO<DbMonitor> restFulDTO = new RestFulDTO<DbMonitor>();
 		DbMonitor dbMonitor = null;
 		try {
 			DbMonitorDAO dbMonitorDAO = session
 					.getMapper(DbMonitorDAO.class);
 			dbMonitor = dbMonitorDAO.load(monitorId);
+			restFulDTO.setResultInfo(dbMonitor);
 		} catch(Exception e){
+			restFulDTO.setErrorCode("error");
+			restFulDTO.setErrMsg(e.toString());
 			logger.error("getDbMonitorInfo", e);
 		}finally {
 			session.close();
 		}
-		return dbMonitor;
+		return restFulDTO;
 	}
 
 	@GET
-	@Path("groupId/{groupId}")
+	@Path("dbGroupId/{groupId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<DbMonitor> getDbMonitorListByGroupId(@PathParam("groupId")int groupId){
+	public RestFulDTO<List<DbMonitor>> getDbMonitorListByGroupId(@PathParam("groupId")int groupId){
 		SqlSession session = PersistenceManager.getSession().openSession();
+		RestFulDTO<List<DbMonitor>> restFulDTO = new RestFulDTO<List<DbMonitor>>();
 		List<DbMonitor> dbMonitorList = null;
 		try {
 			DbMonitorDAO dbMonitorDAO = session
@@ -51,12 +57,15 @@ public class DbMonitorInfo {
 			DbMonitor dbMonitor = new DbMonitor();
 			dbMonitor.setDbGroupId(groupId);
 			dbMonitorList = dbMonitorDAO.query(dbMonitor);
+			restFulDTO.setResultInfo(dbMonitorList);
 		} catch(Exception e){
+			restFulDTO.setErrorCode("error");
+			restFulDTO.setErrMsg(e.toString());
 			logger.error("getDbMonitorInfo", e);
 		}finally {
 			session.close();
 		}
-		return dbMonitorList;
+		return restFulDTO;
 		
 	}
 }
