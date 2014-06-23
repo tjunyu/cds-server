@@ -57,4 +57,29 @@ public class Dbinfo {
 		return restFulDTO;
 		
 	}
+	
+	@GET
+	@Path("dbIp/{dbIp}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public RestFulDTO<List<DbInfo>> getDbInfoListByDbIp(@PathParam("dbIp")String dbIp){
+		SqlSession session = PersistenceManager.getSession().openSession();
+		RestFulDTO<List<DbInfo>> restFulDTO = new RestFulDTO<List<DbInfo>>();
+		List<DbInfo> dbInfoList = null;
+		try {
+			DbInfoDAO dbInfoDAO = session.getMapper(DbInfoDAO.class);
+			DbInfo dbInfo = new DbInfo();
+			dbInfo.setIp(dbIp);
+			dbInfoList = dbInfoDAO.query(dbInfo);
+			restFulDTO.setResultInfo(dbInfoList);
+		} catch(Exception e){
+			restFulDTO.setErrorCode("error");
+			restFulDTO.setErrMsg(e.toString());
+			logger.error("getDbMonitorInfo", e);
+		}finally {
+			session.close();
+		}
+		return restFulDTO;
+		
+	}
+	
 }
