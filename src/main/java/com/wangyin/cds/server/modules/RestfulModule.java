@@ -4,12 +4,12 @@ import java.util.Map;
 
 import javax.ws.rs.core.Application;
 
-import com.wangyin.cds.server.container.NettyContainerInitializer;
+import com.wangyin.cds.server.container.HttpDispatchInitializer;
 
 public abstract class RestfulModule extends ServerModule {
 	public abstract void configure(Application application);
 	public void configure(Map<String, Object> configuration) {
-		Application app = (Application) configuration.get(NettyContainerInitializer.PROP_APPLICATION);
+		Application app = (Application) configuration.get(HttpDispatchInitializer.PROP_APPLICATION);
 		assert(app != null);
 		configure(app);
 	}

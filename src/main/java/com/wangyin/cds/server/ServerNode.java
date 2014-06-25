@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.wangyin.cds.server.container.NettyContainerInitializer;
+import com.wangyin.cds.server.container.HttpDispatchInitializer;
 import com.wangyin.cds.server.modules.INodeModule;
 import com.wangyin.cds.server.modules.ServerModule;
 import com.wangyin.cds.server.persistence.PersistenceManager;
@@ -39,7 +39,7 @@ public abstract class ServerNode {
 	protected String home;
 	protected Map<String, INodeModule> modules = new HashMap<String, INodeModule>();
 	private ExecutorService service;
-	private NettyContainerInitializer httpInitalizer;
+	private HttpDispatchInitializer httpDispatchInitializer;
 	private PersistenceManager persistenceManager;
 	private final class ServerDescription{
 		EventLoopGroup boss;
@@ -71,7 +71,7 @@ public abstract class ServerNode {
 		Map<String, Object> config = mapper.readValue(conf_stream, Map.class);
 		//configure HTTP SERVER
 		Map<String, Object> http_config = (Map<String, Object>) config.get(PROP_HTTP_SERVER);
-		httpInitalizer = new NettyContainerInitializer(http_config);
+		httpDispatchInitializer = new HttpDispatchInitializer(http_config);
 		//configure MODULES
 		for (INodeModule module : modules.values()) {
 			Object config_value = config.get(module.getName());
@@ -86,7 +86,7 @@ public abstract class ServerNode {
 	}
 
 	private void startInternalMiniServer() {
-		logger.info("try to start internal http server on "+httpInitalizer.getPort()+" which provides restful service");
+		logger.info("try to start internal http server on "+httpDispatchInitializer.getPort()+" which provides restful service");
 		 EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 	     EventLoopGroup workerGroup = new NioEventLoopGroup();
 	     final ServerBootstrap sb = new ServerBootstrap();
@@ -94,12 +94,12 @@ public abstract class ServerNode {
 	     service.execute(new Runnable() {
 			public void run() {
 				sb.channel(NioServerSocketChannel.class)
-	             .childHandler(httpInitalizer);
+	             .childHandler(httpDispatchInitializer);
 				 try {
-					Channel ch = sb.bind(httpInitalizer.getPort()).sync().channel();
+					Channel ch = sb.bind(httpDispatchInitializer.getPort()).sync().channel();
 					ch.closeFuture().sync();
 				} catch (InterruptedException e) {
-					logger.error("fail to start internal server on "+httpInitalizer.getPort(),e);
+					logger.error("fail to start internal server on "+httpDispatchInitializer.getPort(),e);
 				}
 			}
 		});

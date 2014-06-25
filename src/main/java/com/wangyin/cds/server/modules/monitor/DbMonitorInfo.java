@@ -2,7 +2,9 @@ package com.wangyin.cds.server.modules.monitor;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,9 +21,10 @@ import com.wangyin.cds.server.persistence.model.DbMonitor;
  * @author wy   
  */
 @Path("monitor")
-public class DbMonitorInfo {
+public class DbMonitorInfo{
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory
 			.getLogger(DbMonitorInfo.class);
+	
 	@GET
 	@Path("monitorId/{monitorId}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -56,6 +59,31 @@ public class DbMonitorInfo {
 					.getMapper(DbMonitorDAO.class);
 			DbMonitor dbMonitor = new DbMonitor();
 			dbMonitor.setDbGroupId(groupId);
+			dbMonitorList = dbMonitorDAO.query(dbMonitor);
+			restFulDTO.setResultInfo(dbMonitorList);
+		} catch(Exception e){
+			restFulDTO.setErrorCode("error");
+			restFulDTO.setErrMsg(e.toString());
+			logger.error("getDbMonitorInfo", e);
+		}finally {
+			session.close();
+		}
+		return restFulDTO;
+		
+	}
+	
+	@POST
+	@Path("collectMonitorResult/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	public RestFulDTO<List<DbMonitor>> collectMonitorResult(){
+		SqlSession session = PersistenceManager.getSession().openSession();
+		RestFulDTO<List<DbMonitor>> restFulDTO = new RestFulDTO<List<DbMonitor>>();
+		List<DbMonitor> dbMonitorList = null;
+		try {
+			DbMonitorDAO dbMonitorDAO = session
+					.getMapper(DbMonitorDAO.class);
+			DbMonitor dbMonitor = new DbMonitor();
+//			dbMonitor.setDbGroupId(groupId);
 			dbMonitorList = dbMonitorDAO.query(dbMonitor);
 			restFulDTO.setResultInfo(dbMonitorList);
 		} catch(Exception e){
