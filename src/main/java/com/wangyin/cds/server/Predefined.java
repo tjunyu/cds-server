@@ -11,4 +11,9 @@ public final class Predefined {
 	
 	public static final String PROP_BASE_URI= "com.wangyin.cds.server.baseuri";
 	public static final String PROP_REMOTE_ADDRESS="com.wangyin.cds.server.remoteAddress";
+	
+	public static final String HTTP_HEAD_APP_ID="cds-app-id";
+	public static final String HTTP_HEAD_APP_KEY="cds-app-key";
+	public static final String HTTP_HEAD_SESSION="cds-session-id";
+	public static final String PROP_SESSION_MGR="com.wangyin.cds.sessionmgr";
 }

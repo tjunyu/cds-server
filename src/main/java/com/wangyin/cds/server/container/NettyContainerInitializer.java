@@ -13,11 +13,16 @@ import java.util.Map;
 
 import javax.ws.rs.core.Application;
 
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import com.wangyin.cds.server.Predefined;
+import com.wangyin.cds.server.container.aa.ICdsSession;
+import com.wangyin.cds.server.container.aa.RestAuth;
+import com.wangyin.cds.server.container.aa.SessionHolder;
+import com.wangyin.cds.server.container.aa.SessionManager;
 
 public class NettyContainerInitializer extends
 		ChannelInitializer<SocketChannel> {
@@ -25,10 +30,12 @@ public class NettyContainerInitializer extends
 	private Map<String, Object> configuration;
 	public static final String PROP_APPLICATION="com.wangyin.cds.server.container.NettyContainerInitializer.application";
 	private final int port;
+	private SessionManager sessionManager;
 	public NettyContainerInitializer(Map<String, Object> config){
 		this.configuration = config;
 		containerHandler = ContainerFactory.createContainer(MiniNettyContainer.class, initApplcation());
 		this.port = (Integer) this.configuration.get("port");
+		this.sessionManager = new SessionManager();
 	}
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
@@ -48,6 +55,15 @@ public class NettyContainerInitializer extends
 		app.packages("com.wangyin.cds.server.modules.monitor");
 		app.register(ObjectMapperProvider.class);
 		app.register(JacksonFeature.class);
+		app.register(new AbstractBinder() {
+			
+			@Override
+			protected void configure() {
+				bind(SessionHolder.class).to(ICdsSession.class);
+			}
+		});
+		app.register(RestAuth.class);
+		app.property(Predefined.PROP_SESSION_MGR, this.sessionManager);
 		try {
 			app.property(Predefined.PROP_BASE_URI, new URI("http://"+configuration.get("ip")+":"+port));
 		} catch (URISyntaxException e) {
