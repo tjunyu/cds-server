@@ -40,9 +40,9 @@ public class HttpDispatchHandler extends SimpleChannelInboundHandler<FullHttpReq
 			throws Exception {
 
 		String uri = request.getUri();
-		if(uri.contains("rest")){
+		if(uri.contains("/rest/")){
 			ctx.channel().pipeline().addLast("rest", miniNettyContainer);
-		}else if(uri.contains("script")){
+		}else if(uri.contains("/script/")){
 			ctx.channel().pipeline().addLast("script", fileServerHandler);
 		}
 		ctx.fireChannelRead(request);

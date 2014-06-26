@@ -1,6 +1,5 @@
 package com.wangyin.cds.server.modules.monitor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -13,10 +12,10 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.wangyin.cds.server.modules.monitor.dto.RestFulDTO;
 import com.wangyin.cds.server.persistence.DbInfoDAO;
+import com.wangyin.cds.server.persistence.DbUnitDAO;
 import com.wangyin.cds.server.persistence.PersistenceManager;
-import com.wangyin.cds.server.persistence.RdbinfodbgroupDAO;
 import com.wangyin.cds.server.persistence.model.DbInfo;
-import com.wangyin.cds.server.persistence.model.Rdbinfodbgroup;
+import com.wangyin.cds.server.persistence.model.DbUnit;
 
 /**   
  * @author wy   
@@ -35,18 +34,37 @@ public class Dbinfo {
 		RestFulDTO<List<DbInfo>> restFulDTO = new RestFulDTO<List<DbInfo>>();
 		List<DbInfo> dbInfoList = null;
 		try {
-//			DbGroupDAO dbGroupDAO = session.getMapper(DbGroupDAO.class);
-//			DbGroup dbGroup = dbGroupDAO.load(dbGroupId);
-			RdbinfodbgroupDAO rdbinfodbgroupDAO = session.getMapper(RdbinfodbgroupDAO.class);
-			Rdbinfodbgroup rdbinfodbgroup = new Rdbinfodbgroup();
-			rdbinfodbgroup.setDbGroupId(dbGroupId);
-			List<Rdbinfodbgroup> rdbinfodbgroupList = rdbinfodbgroupDAO.query(rdbinfodbgroup);
 			DbInfoDAO dbInfoDAO = session.getMapper(DbInfoDAO.class);
-			dbInfoList = new ArrayList<DbInfo>(rdbinfodbgroupList.size());
-			for(Rdbinfodbgroup rdbig:rdbinfodbgroupList){
-				dbInfoList.add(dbInfoDAO.load(rdbig.getDbInfoId()));//type不用穿
-			}
+			DbInfo dbInfo = new DbInfo();
+			dbInfo.setDbMonitorGroupId(dbGroupId);
+			dbInfo.setMasterOrSlave(type);
+			dbInfoList = dbInfoDAO.query(dbInfo);
 			restFulDTO.setResultInfo(dbInfoList);
+		} catch(Exception e){
+			restFulDTO.setErrorCode("error");
+			restFulDTO.setErrMsg(e.toString());
+			logger.error("getDbMonitorInfo", e);
+		}finally {
+			session.close();
+		}
+		return restFulDTO;
+		
+	}
+	
+	@GET
+	@Path("dbunits/{ip}/dbtype/{dbType}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public RestFulDTO<List<DbUnit>> getDbInfoListByType(@PathParam("ip")String ip,@PathParam("dbType")String dbType){
+		SqlSession session = PersistenceManager.getSession().openSession();
+		RestFulDTO<List<DbUnit>> restFulDTO = new RestFulDTO<List<DbUnit>>();
+		List<DbUnit> dbUnitList = null;
+		try {
+			DbUnitDAO dbUnitDAO = session.getMapper(DbUnitDAO.class);
+			DbUnit dbUnit = new DbUnit();
+			dbUnit.setDbType(dbType);
+			dbUnit.setIp(ip);
+			dbUnitList = dbUnitDAO.query(dbUnit);
+			restFulDTO.setResultInfo(dbUnitList);
 		} catch(Exception e){
 			restFulDTO.setErrorCode("error");
 			restFulDTO.setErrMsg(e.toString());

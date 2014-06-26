@@ -25,7 +25,7 @@ public class Events {
 	
 
 	@GET
-	@Path("{ip}")
+	@Path("ip/{ip}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getDbInfoListByType(@PathParam("ip")String ip){
 		SqlSession session = PersistenceManager.getSession().openSession();
@@ -51,7 +51,7 @@ public class Events {
 		}finally {
 			session.close();
 		}
-		String tempStr = "[ \"errorCode\" : \"0\",\"errMsg\" : \"\",\"resultInfo\":{ \"eventType\" : \"MONITOR_START\",\"eventId\" : \"S1401088157636\",\"dbInfo\" : { \"groupId\" : \"11\",\"groupName\" : null,\"dbIp\" : \"192.168.1.101\",\"dbName\" : \"test\",\"dbPort\" : \"3303\"},\"monitorIds\" :{1,2,3,4}}]";
+		String tempStr = "[ \"errorCode\" : \"0\",\"errMsg\" : \"\",\"resultInfo\":{ \"eventType\" : \"MONITOR_START\",\"eventId\" : \"S1401088157636\",\"dbInfo\" : { \"groupId\" : \"11\",\"groupName\" : null,\"dbIp\" : \"192.168.1.101\",\"dbName\" : \"test\",\"dbPort\" : \"3303\"},\"monitorIds\" :{1}}]";
 		return tempStr;
 		
 	}

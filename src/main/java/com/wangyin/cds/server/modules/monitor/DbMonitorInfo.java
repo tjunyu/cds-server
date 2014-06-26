@@ -2,7 +2,7 @@ package com.wangyin.cds.server.modules.monitor;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,8 +14,10 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.wangyin.cds.server.modules.monitor.dto.RestFulDTO;
 import com.wangyin.cds.server.persistence.DbMonitorDAO;
+import com.wangyin.cds.server.persistence.DbMonitorInstanceDAO;
 import com.wangyin.cds.server.persistence.PersistenceManager;
 import com.wangyin.cds.server.persistence.model.DbMonitor;
+import com.wangyin.cds.server.persistence.model.DbMonitorInstance;
 
 /**   
  * @author wy   
@@ -58,7 +60,7 @@ public class DbMonitorInfo{
 			DbMonitorDAO dbMonitorDAO = session
 					.getMapper(DbMonitorDAO.class);
 			DbMonitor dbMonitor = new DbMonitor();
-			dbMonitor.setDbGroupId(groupId);
+			dbMonitor.setDbMonitorGroupId(groupId);
 			dbMonitorList = dbMonitorDAO.query(dbMonitor);
 			restFulDTO.setResultInfo(dbMonitorList);
 		} catch(Exception e){
@@ -74,18 +76,15 @@ public class DbMonitorInfo{
 	
 	@POST
 	@Path("collectMonitorResult/json")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public RestFulDTO<List<DbMonitor>> collectMonitorResult(){
+	public RestFulDTO<List<DbMonitor>> collectMonitorResult(DbMonitorInstance dbMonitorInstance){
 		SqlSession session = PersistenceManager.getSession().openSession();
 		RestFulDTO<List<DbMonitor>> restFulDTO = new RestFulDTO<List<DbMonitor>>();
-		List<DbMonitor> dbMonitorList = null;
 		try {
-			DbMonitorDAO dbMonitorDAO = session
-					.getMapper(DbMonitorDAO.class);
-			DbMonitor dbMonitor = new DbMonitor();
-//			dbMonitor.setDbGroupId(groupId);
-			dbMonitorList = dbMonitorDAO.query(dbMonitor);
-			restFulDTO.setResultInfo(dbMonitorList);
+			DbMonitorInstanceDAO dbMonitorInstanceDAO = session
+					.getMapper(DbMonitorInstanceDAO.class);
+			dbMonitorInstanceDAO.insert(dbMonitorInstance);
 		} catch(Exception e){
 			restFulDTO.setErrorCode("error");
 			restFulDTO.setErrMsg(e.toString());

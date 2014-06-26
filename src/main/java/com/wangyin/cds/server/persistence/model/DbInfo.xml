@@ -5,71 +5,81 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.wangyin.cds.server.persistence.DbInfoDAO">
 
-	<resultMap type="com.wangyin.cds.server.persistence.model.DbInfo" id="DbinfoResult">  
-		<id column="db_info_id" property="dbInfoId"/>
+	<resultMap type="com.wangyin.cds.server.persistence.model.DbInfo" id="DbInfoResult">  
+		<id column="id" property="id"/>
+		<result column="db_monitor_group_id" property="dbMonitorGroupId"/>
 		<result column="ip" property="ip"/>
 		<result column="port" property="port"/>
 		<result column="db_server_id" property="dbServerId"/>
-		<result column="db_name" property="dbName"/>
 		<result column="create_by" property="createBy"/>
 		<result column="creation_date" property="creationDate"/>
 		<result column="modified_by" property="modifiedBy"/>
 		<result column="modification_date" property="modificationDate"/>
 		<result column="delete_status" property="deleteStatus"/>
+		<result column="db_type" property="dbType"/>
+		<result column="master_or_slave" property="masterOrSlave"/>
     </resultMap>
 	
 	<sql id="columnsSql">
-		db_info_id,
+		id,
+		db_monitor_group_id,
 		ip,
 		port,
 		db_server_id,
-		db_name,
 		create_by,
 		creation_date,
 		modified_by,
 		modification_date,
-		delete_status
+		delete_status,
+		db_type,
+		master_or_slave
 	</sql>
 	
 	<sql id="whereSql">
 		<where>
-			<if test="dbinfo !=null">
-				<if test="dbinfo.ip!=null">
-					and ip = #{dbinfo.ip}
+			<if test="dbInfo !=null">
+				<if test="dbInfo.dbMonitorGroupId!=null">
+					and db_monitor_group_id = #{dbInfo.dbMonitorGroupId}
 				</if>
-				<if test="dbinfo.port!=null">
-					and port = #{dbinfo.port}
+				<if test="dbInfo.ip!=null">
+					and ip = #{dbInfo.ip}
 				</if>
-				<if test="dbinfo.dbServerId!=null">
-					and db_server_id = #{dbinfo.dbServerId}
+				<if test="dbInfo.port!=null">
+					and port = #{dbInfo.port}
 				</if>
-				<if test="dbinfo.dbName!=null">
-					and db_name = #{dbinfo.dbName}
+				<if test="dbInfo.dbServerId!=null">
+					and db_server_id = #{dbInfo.dbServerId}
 				</if>
-				<if test="dbinfo.createBy!=null">
-					and create_by = #{dbinfo.createBy}
+				<if test="dbInfo.createBy!=null">
+					and create_by = #{dbInfo.createBy}
 				</if>
-				<if test="dbinfo.creationDate!=null">
-					and creation_date = #{dbinfo.creationDate}
+				<if test="dbInfo.creationDate!=null">
+					and creation_date = #{dbInfo.creationDate}
 				</if>
-				<if test="dbinfo.modifiedBy!=null">
-					and modified_by = #{dbinfo.modifiedBy}
+				<if test="dbInfo.modifiedBy!=null">
+					and modified_by = #{dbInfo.modifiedBy}
 				</if>
-				<if test="dbinfo.modificationDate!=null">
-					and modification_date = #{dbinfo.modificationDate}
+				<if test="dbInfo.modificationDate!=null">
+					and modification_date = #{dbInfo.modificationDate}
 				</if>
-				<if test="dbinfo.deleteStatus!=null">
-					and delete_status = #{dbinfo.deleteStatus}
+				<if test="dbInfo.deleteStatus!=null">
+					and delete_status = #{dbInfo.deleteStatus}
+				</if>
+				<if test="dbInfo.dbType!=null">
+					and db_type = #{dbInfo.dbType}
+				</if>
+				<if test="dbInfo.masterOrSlave!=null">
+					and master_or_slave = #{dbInfo.masterOrSlave}
 				</if>
 			</if>
 		</where>
 	</sql>
 	
-	<select id="getPageList" resultMap="DbinfoResult">
+	<select id="getPageList" resultMap="DbInfoResult">
 		select * from (select row_.*, rownum rownum_ from (
 			select 
 			<include refid="columnsSql"/>
-			from DBINFO
+			from DB_INFO
 			<include refid="whereSql"/>
 		<![CDATA[
       	)  row_ where rownum <= #{limit} + #{start}) where rownum_ > #{start} 
@@ -77,105 +87,119 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="count" resultType="java.lang.Integer">
-		select count(*) from DBINFO
+		select count(*) from DB_INFO
 		<include refid="whereSql"/>
 	</select>
 	
-	<select id="query" resultMap="DbinfoResult">
+	<select id="query" resultMap="DbInfoResult">
 		select 
 		<include refid="columnsSql"/>
-		from DBINFO
+		from DB_INFO
 		<include refid="whereSql"/>
 	</select>
 
-	<select id="load" resultMap="DbinfoResult">
+	<select id="load" resultMap="DbInfoResult">
 		select 
 		<include refid="columnsSql"/>
-		from DBINFO
-		where db_info_id=#{dbInfoId}
+		from DB_INFO
+		where id=#{id}
 	</select>
 
 	<update id="update">
-		update DBINFO
+		update DB_INFO
 		<set>
-			<if test="dbinfo.ip != null">ip=#{dbinfo.ip},</if>
-			<if test="dbinfo.port != null">port=#{dbinfo.port},</if>
-			<if test="dbinfo.dbServerId != null">db_server_id=#{dbinfo.dbServerId},</if>
-			<if test="dbinfo.dbName != null">db_name=#{dbinfo.dbName},</if>
-			<if test="dbinfo.createBy != null">create_by=#{dbinfo.createBy},</if>
-			<if test="dbinfo.creationDate != null">creation_date=#{dbinfo.creationDate},</if>
-			<if test="dbinfo.modifiedBy != null">modified_by=#{dbinfo.modifiedBy},</if>
-			<if test="dbinfo.modificationDate != null">modification_date=#{dbinfo.modificationDate},</if>
-			<if test="dbinfo.deleteStatus != null">delete_status=#{dbinfo.deleteStatus}</if>
+			<if test="dbInfo.dbMonitorGroupId != null">db_monitor_group_id=#{dbInfo.dbMonitorGroupId},</if>
+			<if test="dbInfo.ip != null">ip=#{dbInfo.ip},</if>
+			<if test="dbInfo.port != null">port=#{dbInfo.port},</if>
+			<if test="dbInfo.dbServerId != null">db_server_id=#{dbInfo.dbServerId},</if>
+			<if test="dbInfo.createBy != null">create_by=#{dbInfo.createBy},</if>
+			<if test="dbInfo.creationDate != null">creation_date=#{dbInfo.creationDate},</if>
+			<if test="dbInfo.modifiedBy != null">modified_by=#{dbInfo.modifiedBy},</if>
+			<if test="dbInfo.modificationDate != null">modification_date=#{dbInfo.modificationDate},</if>
+			<if test="dbInfo.deleteStatus != null">delete_status=#{dbInfo.deleteStatus},</if>
+			<if test="dbInfo.dbType != null">db_type=#{dbInfo.dbType},</if>
+			<if test="dbInfo.masterOrSlave != null">master_or_slave=#{dbInfo.masterOrSlave}</if>
 		</set>
-		where db_info_id=#{dbinfo.dbInfoId}
+		where id=#{dbInfo.id}
 	</update>
 
-	<insert id="insert" keyProperty="dbinfo.dbInfoId">
-		insert into DBINFO(
-			db_info_id
-			<if test="dbinfo.ip!=null">
+	<insert id="insert" keyProperty="dbInfo.id">
+		insert into DB_INFO(
+			id
+			<if test="dbInfo.dbMonitorGroupId!=null">
+				,db_monitor_group_id
+			</if>
+			<if test="dbInfo.ip!=null">
 				,ip
 			</if>
-			<if test="dbinfo.port!=null">
+			<if test="dbInfo.port!=null">
 				,port
 			</if>
-			<if test="dbinfo.dbServerId!=null">
+			<if test="dbInfo.dbServerId!=null">
 				,db_server_id
 			</if>
-			<if test="dbinfo.dbName!=null">
-				,db_name
-			</if>
-			<if test="dbinfo.createBy!=null">
+			<if test="dbInfo.createBy!=null">
 				,create_by
 			</if>
-			<if test="dbinfo.creationDate!=null">
+			<if test="dbInfo.creationDate!=null">
 				,creation_date
 			</if>
-			<if test="dbinfo.modifiedBy!=null">
+			<if test="dbInfo.modifiedBy!=null">
 				,modified_by
 			</if>
-			<if test="dbinfo.modificationDate!=null">
+			<if test="dbInfo.modificationDate!=null">
 				,modification_date
 			</if>
-			<if test="dbinfo.deleteStatus!=null">
+			<if test="dbInfo.deleteStatus!=null">
 				,delete_status
 			</if>
+			<if test="dbInfo.dbType!=null">
+				,db_type
+			</if>
+			<if test="dbInfo.masterOrSlave!=null">
+				,master_or_slave
+			</if>
 		) values(
-			 #{dbinfo.dbInfoId}
-			<if test="dbinfo.ip!=null">
-				 ,#{dbinfo.ip}
+			 #{dbInfo.id}
+			<if test="dbInfo.dbMonitorGroupId!=null">
+				 ,#{dbInfo.dbMonitorGroupId}
 			</if>
-			<if test="dbinfo.port!=null">
-				 ,#{dbinfo.port}
+			<if test="dbInfo.ip!=null">
+				 ,#{dbInfo.ip}
 			</if>
-			<if test="dbinfo.dbServerId!=null">
-				 ,#{dbinfo.dbServerId}
+			<if test="dbInfo.port!=null">
+				 ,#{dbInfo.port}
 			</if>
-			<if test="dbinfo.dbName!=null">
-				 ,#{dbinfo.dbName}
+			<if test="dbInfo.dbServerId!=null">
+				 ,#{dbInfo.dbServerId}
 			</if>
-			<if test="dbinfo.createBy!=null">
-				 ,#{dbinfo.createBy}
+			<if test="dbInfo.createBy!=null">
+				 ,#{dbInfo.createBy}
 			</if>
-			<if test="dbinfo.creationDate!=null">
-				 ,#{dbinfo.creationDate}
+			<if test="dbInfo.creationDate!=null">
+				 ,#{dbInfo.creationDate}
 			</if>
-			<if test="dbinfo.modifiedBy!=null">
-				 ,#{dbinfo.modifiedBy}
+			<if test="dbInfo.modifiedBy!=null">
+				 ,#{dbInfo.modifiedBy}
 			</if>
-			<if test="dbinfo.modificationDate!=null">
-				 ,#{dbinfo.modificationDate}
+			<if test="dbInfo.modificationDate!=null">
+				 ,#{dbInfo.modificationDate}
 			</if>
-			<if test="dbinfo.deleteStatus!=null">
-				 ,#{dbinfo.deleteStatus}
+			<if test="dbInfo.deleteStatus!=null">
+				 ,#{dbInfo.deleteStatus}
+			</if>
+			<if test="dbInfo.dbType!=null">
+				 ,#{dbInfo.dbType}
+			</if>
+			<if test="dbInfo.masterOrSlave!=null">
+				 ,#{dbInfo.masterOrSlave}
 			</if>
 		)
 	</insert>
 
 	<delete id="delete">
-		delete from DBINFO
-		where db_info_id=#{dbInfoId}
+		delete from DB_INFO
+		where id=#{id}
 	</delete>
 
 </mapper> 

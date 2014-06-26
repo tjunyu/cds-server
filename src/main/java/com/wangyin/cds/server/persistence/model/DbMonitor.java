@@ -12,7 +12,7 @@ public class DbMonitor implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private Integer dbGroupId;
+	private Integer dbMonitorGroupId;
 	private String createBy;
 	private Date creationDate;
 	private String modifiedBy;
@@ -24,6 +24,7 @@ public class DbMonitor implements Serializable {
 	private String monitorScriptPath;
 	private Integer checkInterval;
 	private Integer errorNumUpper;
+	private Integer checkTimes;
 	private Integer thresholdUpper;
 	private Integer thresholdLower;
 	private Double power;
@@ -36,12 +37,12 @@ public class DbMonitor implements Serializable {
  		this.id = id;
 	}
 
-	public Integer getDbGroupId() {
- 		return this.dbGroupId;
+	public Integer getDbMonitorGroupId() {
+ 		return this.dbMonitorGroupId;
 	}
 	
-	public void setDbGroupId(Integer dbGroupId) {
- 		this.dbGroupId = dbGroupId;
+	public void setDbMonitorGroupId(Integer dbMonitorGroupId) {
+ 		this.dbMonitorGroupId = dbMonitorGroupId;
 	}
 
 	public String getCreateBy() {
@@ -130,6 +131,14 @@ public class DbMonitor implements Serializable {
 	
 	public void setErrorNumUpper(Integer errorNumUpper) {
  		this.errorNumUpper = errorNumUpper;
+	}
+
+	public Integer getCheckTimes() {
+ 		return this.checkTimes;
+	}
+	
+	public void setCheckTimes(Integer checkTimes) {
+ 		this.checkTimes = checkTimes;
 	}
 
 	public Integer getThresholdUpper() {

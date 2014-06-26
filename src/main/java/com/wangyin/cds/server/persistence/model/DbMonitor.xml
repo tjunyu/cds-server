@@ -7,7 +7,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="com.wangyin.cds.server.persistence.model.DbMonitor" id="DbMonitorResult">  
 		<id column="id" property="id"/>
-		<result column="db_group_Id" property="dbGroupId"/>
+		<result column="db_monitor_group_Id" property="dbMonitorGroupId"/>
 		<result column="create_by" property="createBy"/>
 		<result column="creation_date" property="creationDate"/>
 		<result column="modified_by" property="modifiedBy"/>
@@ -19,6 +19,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<result column="monitor_script_path" property="monitorScriptPath"/>
 		<result column="check_interval" property="checkInterval"/>
 		<result column="error_num_upper" property="errorNumUpper"/>
+		<result column="check_times" property="checkTimes"/>
 		<result column="threshold_upper" property="thresholdUpper"/>
 		<result column="threshold_lower" property="thresholdLower"/>
 		<result column="power" property="power" javaType="Double"/>
@@ -26,7 +27,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	
 	<sql id="columnsSql">
 		id,
-		db_group_Id,
+		db_monitor_group_Id,
 		create_by,
 		creation_date,
 		modified_by,
@@ -38,6 +39,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		monitor_script_path,
 		check_interval,
 		error_num_upper,
+		check_times,
 		threshold_upper,
 		threshold_lower,
 		power
@@ -46,8 +48,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<sql id="whereSql">
 		<where>
 			<if test="dbMonitor !=null">
-				<if test="dbMonitor.dbGroupId!=null">
-					and db_group_Id = #{dbMonitor.dbGroupId}
+				<if test="dbMonitor.dbMonitorGroupId!=null">
+					and db_monitor_group_Id = #{dbMonitor.dbMonitorGroupId}
 				</if>
 				<if test="dbMonitor.createBy!=null">
 					and create_by = #{dbMonitor.createBy}
@@ -81,6 +83,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 				</if>
 				<if test="dbMonitor.errorNumUpper!=null">
 					and error_num_upper = #{dbMonitor.errorNumUpper}
+				</if>
+				<if test="dbMonitor.checkTimes!=null">
+					and check_times = #{dbMonitor.checkTimes}
 				</if>
 				<if test="dbMonitor.thresholdUpper!=null">
 					and threshold_upper = #{dbMonitor.thresholdUpper}
@@ -128,7 +133,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<update id="update">
 		update DB_MONITOR
 		<set>
-			<if test="dbMonitor.dbGroupId != null">db_group_Id=#{dbMonitor.dbGroupId},</if>
+			<if test="dbMonitor.dbMonitorGroupId != null">db_monitor_group_Id=#{dbMonitor.dbMonitorGroupId},</if>
 			<if test="dbMonitor.createBy != null">create_by=#{dbMonitor.createBy},</if>
 			<if test="dbMonitor.creationDate != null">creation_date=#{dbMonitor.creationDate},</if>
 			<if test="dbMonitor.modifiedBy != null">modified_by=#{dbMonitor.modifiedBy},</if>
@@ -140,6 +145,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			<if test="dbMonitor.monitorScriptPath != null">monitor_script_path=#{dbMonitor.monitorScriptPath},</if>
 			<if test="dbMonitor.checkInterval != null">check_interval=#{dbMonitor.checkInterval},</if>
 			<if test="dbMonitor.errorNumUpper != null">error_num_upper=#{dbMonitor.errorNumUpper},</if>
+			<if test="dbMonitor.checkTimes != null">check_times=#{dbMonitor.checkTimes},</if>
 			<if test="dbMonitor.thresholdUpper != null">threshold_upper=#{dbMonitor.thresholdUpper},</if>
 			<if test="dbMonitor.thresholdLower != null">threshold_lower=#{dbMonitor.thresholdLower},</if>
 			<if test="dbMonitor.power != null">power=#{dbMonitor.power}</if>
@@ -150,8 +156,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<insert id="insert" keyProperty="dbMonitor.id">
 		insert into DB_MONITOR(
 			id
-			<if test="dbMonitor.dbGroupId!=null">
-				,db_group_Id
+			<if test="dbMonitor.dbMonitorGroupId!=null">
+				,db_monitor_group_Id
 			</if>
 			<if test="dbMonitor.createBy!=null">
 				,create_by
@@ -186,6 +192,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			<if test="dbMonitor.errorNumUpper!=null">
 				,error_num_upper
 			</if>
+			<if test="dbMonitor.checkTimes!=null">
+				,check_times
+			</if>
 			<if test="dbMonitor.thresholdUpper!=null">
 				,threshold_upper
 			</if>
@@ -197,8 +206,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			</if>
 		) values(
 			 #{dbMonitor.id}
-			<if test="dbMonitor.dbGroupId!=null">
-				 ,#{dbMonitor.dbGroupId}
+			<if test="dbMonitor.dbMonitorGroupId!=null">
+				 ,#{dbMonitor.dbMonitorGroupId}
 			</if>
 			<if test="dbMonitor.createBy!=null">
 				 ,#{dbMonitor.createBy}
@@ -232,6 +241,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="dbMonitor.errorNumUpper!=null">
 				 ,#{dbMonitor.errorNumUpper}
+			</if>
+			<if test="dbMonitor.checkTimes!=null">
+				 ,#{dbMonitor.checkTimes}
 			</if>
 			<if test="dbMonitor.thresholdUpper!=null">
 				 ,#{dbMonitor.thresholdUpper}

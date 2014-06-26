@@ -6,8 +6,12 @@ import java.io.Serializable;
 /**   
  * @author wy   
  */
-public class DbGroup implements Serializable {
-	private Integer dbGroupId;
+public class DbMonitorGroup implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7373609197506125126L;
+	private Integer id;
 	private String groupName;
 	private String createBy;
 	private Date creationDate;
@@ -16,12 +20,12 @@ public class DbGroup implements Serializable {
 	private String deleteStatus;
 	private String dbType;
 
-	public Integer getDbGroupId() {
- 		return this.dbGroupId;
+	public Integer getId() {
+ 		return this.id;
 	}
 	
-	public void setDbGroupId(Integer dbGroupId) {
- 		this.dbGroupId = dbGroupId;
+	public void setId(Integer id) {
+ 		this.id = id;
 	}
 
 	public String getGroupName() {

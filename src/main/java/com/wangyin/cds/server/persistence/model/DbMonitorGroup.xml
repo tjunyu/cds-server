@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.wangyin.cds.server.persistence.DbMonitorGroupDAO">
+
+	<resultMap type="com.wangyin.cds.server.persistence.model.DbMonitorGroup" id="DbMonitorGroupResult">  
+		<id column="id" property="id"/>
+		<result column="group_name" property="groupName"/>
+		<result column="create_by" property="createBy"/>
+		<result column="creation_date" property="creationDate"/>
+		<result column="modified_by" property="modifiedBy"/>
+		<result column="modification_date" property="modificationDate"/>
+		<result column="delete_status" property="deleteStatus"/>
+		<result column="db_type" property="dbType"/>
+    </resultMap>
+	
+	<sql id="columnsSql">
+		id,
+		group_name,
+		create_by,
+		creation_date,
+		modified_by,
+		modification_date,
+		delete_status,
+		db_type
+	</sql>
+	
+	<sql id="whereSql">
+		<where>
+			<if test="dbMonitorGroup !=null">
+				<if test="dbMonitorGroup.groupName!=null">
+					and group_name = #{dbMonitorGroup.groupName}
+				</if>
+				<if test="dbMonitorGroup.createBy!=null">
+					and create_by = #{dbMonitorGroup.createBy}
+				</if>
+				<if test="dbMonitorGroup.creationDate!=null">
+					and creation_date = #{dbMonitorGroup.creationDate}
+				</if>
+				<if test="dbMonitorGroup.modifiedBy!=null">
+					and modified_by = #{dbMonitorGroup.modifiedBy}
+				</if>
+				<if test="dbMonitorGroup.modificationDate!=null">
+					and modification_date = #{dbMonitorGroup.modificationDate}
+				</if>
+				<if test="dbMonitorGroup.deleteStatus!=null">
+					and delete_status = #{dbMonitorGroup.deleteStatus}
+				</if>
+				<if test="dbMonitorGroup.dbType!=null">
+					and db_type = #{dbMonitorGroup.dbType}
+				</if>
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getPageList" resultMap="DbMonitorGroupResult">
+		select * from (select row_.*, rownum rownum_ from (
+			select 
+			<include refid="columnsSql"/>
+			from DB_MONITOR_GROUP
+			<include refid="whereSql"/>
+		<![CDATA[
+      	)  row_ where rownum <= #{limit} + #{start}) where rownum_ > #{start} 
+		]]>
+	</select>
+	
+	<select id="count" resultType="java.lang.Integer">
+		select count(*) from DB_MONITOR_GROUP
+		<include refid="whereSql"/>
+	</select>
+	
+	<select id="query" resultMap="DbMonitorGroupResult">
+		select 
+		<include refid="columnsSql"/>
+		from DB_MONITOR_GROUP
+		<include refid="whereSql"/>
+	</select>
+
+	<select id="load" resultMap="DbMonitorGroupResult">
+		select 
+		<include refid="columnsSql"/>
+		from DB_MONITOR_GROUP
+		where id=#{id}
+	</select>
+
+	<update id="update">
+		update DB_MONITOR_GROUP
+		<set>
+			<if test="dbMonitorGroup.groupName != null">group_name=#{dbMonitorGroup.groupName},</if>
+			<if test="dbMonitorGroup.createBy != null">create_by=#{dbMonitorGroup.createBy},</if>
+			<if test="dbMonitorGroup.creationDate != null">creation_date=#{dbMonitorGroup.creationDate},</if>
+			<if test="dbMonitorGroup.modifiedBy != null">modified_by=#{dbMonitorGroup.modifiedBy},</if>
+			<if test="dbMonitorGroup.modificationDate != null">modification_date=#{dbMonitorGroup.modificationDate},</if>
+			<if test="dbMonitorGroup.deleteStatus != null">delete_status=#{dbMonitorGroup.deleteStatus},</if>
+			<if test="dbMonitorGroup.dbType != null">db_type=#{dbMonitorGroup.dbType}</if>
+		</set>
+		where id=#{dbMonitorGroup.id}
+	</update>
+
+	<insert id="insert" keyProperty="dbMonitorGroup.id">
+		insert into DB_MONITOR_GROUP(
+			id
+			<if test="dbMonitorGroup.groupName!=null">
+				,group_name
+			</if>
+			<if test="dbMonitorGroup.createBy!=null">
+				,create_by
+			</if>
+			<if test="dbMonitorGroup.creationDate!=null">
+				,creation_date
+			</if>
+			<if test="dbMonitorGroup.modifiedBy!=null">
+				,modified_by
+			</if>
+			<if test="dbMonitorGroup.modificationDate!=null">
+				,modification_date
+			</if>
+			<if test="dbMonitorGroup.deleteStatus!=null">
+				,delete_status
+			</if>
+			<if test="dbMonitorGroup.dbType!=null">
+				,db_type
+			</if>
+		) values(
+			 #{dbMonitorGroup.id}
+			<if test="dbMonitorGroup.groupName!=null">
+				 ,#{dbMonitorGroup.groupName}
+			</if>
+			<if test="dbMonitorGroup.createBy!=null">
+				 ,#{dbMonitorGroup.createBy}
+			</if>
+			<if test="dbMonitorGroup.creationDate!=null">
+				 ,#{dbMonitorGroup.creationDate}
+			</if>
+			<if test="dbMonitorGroup.modifiedBy!=null">
+				 ,#{dbMonitorGroup.modifiedBy}
+			</if>
+			<if test="dbMonitorGroup.modificationDate!=null">
+				 ,#{dbMonitorGroup.modificationDate}
+			</if>
+			<if test="dbMonitorGroup.deleteStatus!=null">
+				 ,#{dbMonitorGroup.deleteStatus}
+			</if>
+			<if test="dbMonitorGroup.dbType!=null">
+				 ,#{dbMonitorGroup.dbType}
+			</if>
+		)
+	</insert>
+
+	<delete id="delete">
+		delete from DB_MONITOR_GROUP
+		where id=#{id}
+	</delete>
+
+</mapper> 

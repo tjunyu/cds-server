@@ -3,26 +3,22 @@ package com.wangyin.cds.server.persistence.model;
 import java.util.Date;
 import java.io.Serializable;
 
-/**   
- * @author wy   
- */
-public class DbInfo implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4751138252604857037L;
+
+public class DbUnit implements Serializable {
 	private Integer id;
-	private Integer dbMonitorGroupId;
+	private Integer dbHostGroupId;
 	private String ip;
 	private Integer port;
 	private Integer dbServerId;
+	private String dbName;
+	private String passwd;
+	private String dbType;
+	private String masterOrSlave;
 	private String createBy;
 	private Date creationDate;
 	private String modifiedBy;
 	private Date modificationDate;
 	private String deleteStatus;
-	private String dbType;
-	private String masterOrSlave;
 
 	public Integer getId() {
  		return this.id;
@@ -32,12 +28,12 @@ public class DbInfo implements Serializable {
  		this.id = id;
 	}
 
-	public Integer getDbMonitorGroupId() {
- 		return this.dbMonitorGroupId;
+	public Integer getDbHostGroupId() {
+ 		return this.dbHostGroupId;
 	}
 	
-	public void setDbMonitorGroupId(Integer dbMonitorGroupId) {
- 		this.dbMonitorGroupId = dbMonitorGroupId;
+	public void setDbHostGroupId(Integer dbHostGroupId) {
+ 		this.dbHostGroupId = dbHostGroupId;
 	}
 
 	public String getIp() {
@@ -62,6 +58,38 @@ public class DbInfo implements Serializable {
 	
 	public void setDbServerId(Integer dbServerId) {
  		this.dbServerId = dbServerId;
+	}
+
+	public String getDbName() {
+ 		return this.dbName;
+	}
+	
+	public void setDbName(String dbName) {
+ 		this.dbName = dbName;
+	}
+
+	public String getPasswd() {
+ 		return this.passwd;
+	}
+	
+	public void setPasswd(String passwd) {
+ 		this.passwd = passwd;
+	}
+
+	public String getDbType() {
+ 		return this.dbType;
+	}
+	
+	public void setDbType(String dbType) {
+ 		this.dbType = dbType;
+	}
+
+	public String getMasterOrSlave() {
+ 		return this.masterOrSlave;
+	}
+	
+	public void setMasterOrSlave(String masterOrSlave) {
+ 		this.masterOrSlave = masterOrSlave;
 	}
 
 	public String getCreateBy() {
@@ -102,21 +130,5 @@ public class DbInfo implements Serializable {
 	
 	public void setDeleteStatus(String deleteStatus) {
  		this.deleteStatus = deleteStatus;
-	}
-
-	public String getDbType() {
- 		return this.dbType;
-	}
-	
-	public void setDbType(String dbType) {
- 		this.dbType = dbType;
-	}
-
-	public String getMasterOrSlave() {
- 		return this.masterOrSlave;
-	}
-	
-	public void setMasterOrSlave(String masterOrSlave) {
- 		this.masterOrSlave = masterOrSlave;
 	}
 }
