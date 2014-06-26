@@ -84,6 +84,11 @@ public class DbMonitorInfo{
 		try {
 			DbMonitorInstanceDAO dbMonitorInstanceDAO = session
 					.getMapper(DbMonitorInstanceDAO.class);
+			dbMonitorInstance.setAlarmMsg("aaa");
+			dbMonitorInstance.setIntegral(1);
+			dbMonitorInstance.setMonitorItemName("aaaaa");
+			dbMonitorInstance.setStatus("success");
+
 			dbMonitorInstanceDAO.insert(dbMonitorInstance);
 		} catch(Exception e){
 			restFulDTO.setErrorCode("error");

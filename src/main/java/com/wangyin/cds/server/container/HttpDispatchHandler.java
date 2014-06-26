@@ -69,7 +69,7 @@ public class HttpDispatchHandler extends SimpleChannelInboundHandler<FullHttpReq
 				bind(SessionHolder.class).to(ICdsSession.class);
 			}
 		});
-		app.register(RestAuth.class);
+//		app.register(RestAuth.class);
 		app.property(Predefined.PROP_SESSION_MGR, this.sessionManager);
 		try {
 			app.property(Predefined.PROP_BASE_URI, new URI("http://"+configuration.get("ip")+":"+port+"/rest"));
