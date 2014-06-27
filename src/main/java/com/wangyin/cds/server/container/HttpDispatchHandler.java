@@ -29,11 +29,9 @@ public class HttpDispatchHandler extends SimpleChannelInboundHandler<FullHttpReq
 
 	private FileServerHandler fileServerHandler;
 	private MiniNettyContainer miniNettyContainer;
-	private SessionManager sessionManager;
-	public HttpDispatchHandler(){
+	public HttpDispatchHandler(SessionManager sessionManager){
 		this.fileServerHandler = new FileServerHandler();
-		this.miniNettyContainer = ContainerFactory.createContainer(MiniNettyContainer.class, initApplcation());
-		this.sessionManager = new SessionManager();
+		this.miniNettyContainer = ContainerFactory.createContainer(MiniNettyContainer.class, initApplcation(sessionManager));
 	}
 
 	
@@ -50,7 +48,7 @@ public class HttpDispatchHandler extends SimpleChannelInboundHandler<FullHttpReq
 		ctx.fireChannelRead(request);
 	}
 
-	private Application initApplcation() {
+	private Application initApplcation(SessionManager sessionManager) {
 		ResourceConfig app = new ResourceConfig();
 		ServerNode.http_config.put(HttpDispatchInitializer.PROP_APPLICATION, app);
 		app.packages("com.wangyin.cds.server.container.sample");
@@ -65,7 +63,7 @@ public class HttpDispatchHandler extends SimpleChannelInboundHandler<FullHttpReq
 			}
 		});
 //		app.register(RestAuth.class);
-		app.property(Predefined.PROP_SESSION_MGR, this.sessionManager);
+		app.property(Predefined.PROP_SESSION_MGR, sessionManager);
 		try {
 			app.property(Predefined.PROP_BASE_URI, new URI("http://"+ServerNode.http_config.get("ip")+":"+ServerNode.http_config.get("port")+"/rest"));
 		} catch (URISyntaxException e) {

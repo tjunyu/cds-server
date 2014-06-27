@@ -1,5 +1,7 @@
 package com.wangyin.cds.server.container;
 
+import com.wangyin.cds.server.session.SessionManager;
+
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -14,6 +16,11 @@ public class HttpDispatchInitializer extends ChannelInitializer<SocketChannel> {
 	
 	public static final String PROP_APPLICATION="com.wangyin.cds.server.container.HttpDispatchHandler.application";
 	
+	private SessionManager sessionManager;
+	public HttpDispatchInitializer(){
+		this.sessionManager = new SessionManager();
+	}
+	
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		
@@ -22,7 +29,7 @@ public class HttpDispatchInitializer extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("encoder", new HttpResponseEncoder());
         pipeline.addLast("decoder", new HttpRequestDecoder());		
         pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
-        pipeline.addLast("handler", new HttpDispatchHandler());
+        pipeline.addLast("handler", new HttpDispatchHandler(sessionManager));
         
 	}
 
