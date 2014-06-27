@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import com.wangyin.cds.server.persistence.model.DbUnit;
-
+/**   
+ * @author wy   
+ */
 public interface DbUnitDAO {
 	
 	public List<DbUnit> getPageList(@Param("start") Integer start, @Param("limit") Integer limit);

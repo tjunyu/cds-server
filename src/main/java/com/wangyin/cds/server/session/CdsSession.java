@@ -1,11 +1,11 @@
-package com.wangyin.cds.server.container.aa;
+package com.wangyin.cds.server.session;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 /**
  * 服务器session
- * @author david
+ * @author david  wy
  *
  */
 public class CdsSession implements Serializable, ICdsSession {
@@ -13,15 +13,21 @@ public class CdsSession implements Serializable, ICdsSession {
 	private static final long serialVersionUID = -7167951196806744589L;
 	private String id;
 	private Map<String, Serializable> attributes = new HashMap<String, Serializable>();
-	
 	private final long createdTime;
 	private long lastAccessTime;
-	private int status = SessionManager.STATUS_NORMAL;
+	private int status = SessionManager.STATUS_CREATED;
 	public CdsSession(String id) {
 		super();
 		this.id = id;
 		this.createdTime = System.currentTimeMillis();
 		this.lastAccessTime = this.createdTime;
+	}
+	
+	public CdsSession(String id,long createdTime,long lastAccessTime) {
+		super();
+		this.id = id;
+		this.createdTime = createdTime;
+		this.lastAccessTime = lastAccessTime;
 	}
 	/* (non-Javadoc)
 	 * @see com.wangyin.cds.server.container.session.ICdsSession#setId(java.lang.String)
@@ -69,5 +75,12 @@ public class CdsSession implements Serializable, ICdsSession {
 	}
 	public Serializable getAttribute(String name) {
 		return attributes.get(name);
+	}
+	public Map<String, Serializable> getAttributes() {
+		return attributes;
+	}
+
+	public long getLastAccessTime() {
+		return lastAccessTime;
 	}
 }

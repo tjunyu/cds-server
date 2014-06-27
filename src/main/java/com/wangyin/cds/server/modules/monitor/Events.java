@@ -31,7 +31,7 @@ public class Events {
 		SqlSession session = PersistenceManager.getSession().openSession();
 		RestFulDTO<EventDTO> restFulDTO = new RestFulDTO<EventDTO>();
 		List<DbInfo> dbInfoList = null;
-		try {
+//		try {
 //			DbGroupDAO dbGroupDAO = session.getMapper(DbGroupDAO.class);
 //			DbGroup dbGroup = dbGroupDAO.load(dbGroupId);
 //			RdbinfodbgroupDAO rdbinfodbgroupDAO = session.getMapper(RdbinfodbgroupDAO.class);
@@ -44,14 +44,14 @@ public class Events {
 //				dbInfoList.add(dbInfoDAO.load(rdbig.getDbInfoId()));//type不用穿
 //			}
 //			restFulDTO.setResultInfo(dbInfoList);
-		} catch(Exception e){
-			restFulDTO.setErrorCode("error");
-			restFulDTO.setErrMsg(e.toString());
-			logger.error("getDbMonitorInfo", e);
-		}finally {
-			session.close();
-		}
-		String tempStr = "[ \"errorCode\" : \"0\",\"errMsg\" : \"\",\"resultInfo\":{ \"eventType\" : \"MONITOR_START\",\"eventId\" : \"S1401088157636\",\"dbInfo\" : { \"groupId\" : \"11\",\"groupName\" : null,\"dbIp\" : \"192.168.1.101\",\"dbName\" : \"test\",\"dbPort\" : \"3303\"},\"monitorIds\" :{1}}]";
+//		} catch(Exception e){
+//			restFulDTO.setErrorCode("error");
+//			restFulDTO.setErrMsg(e.toString());
+//			logger.error("getDbMonitorInfo", e);
+//		}finally {
+//			session.close();
+//		}
+		String tempStr = "{\"errorCode\" : \"0\",\"errMsg\" : \"\",\"resultInfo\":[{ \"eventType\" : \"MONITOR_START\",\"eventId\" : \"S1401088157636\",\"dbInfo\" : { \"groupId\" : \"11\",\"groupName\" : null,\"dbIp\" : \"10.9.3.10\",\"dbName\" : \"test\",\"dbType\" : \"Mysql\",\"masterOrSlave\" : \"Master\",\"dbPort\" : \"3306\"},\"monitorId\" :1}]}";
 		return tempStr;
 		
 	}

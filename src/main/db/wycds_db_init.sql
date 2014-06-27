@@ -15,12 +15,26 @@ DROP DATABASE IF EXISTS `wycds`;
 CREATE DATABASE IF NOT EXISTS `wycds` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 USE `wycds`;
 
+-- 导出  表 mydb.app 结构
+DROP TABLE IF EXISTS `cds_session`;
+CREATE TABLE IF NOT EXISTS `cds_session` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `session_id` varchar(1000) NOT NULL COMMENT 'session_id,非空',
+  `created_time` datetime NOT NULL COMMENT '创建时间',
+  `last_access_time` datetime NOT NULL COMMENT '最后一次访问时间',
+  `status` varchar(45) DEFAULT NULL COMMENT '状态',
+  `attributes` varchar(45) DEFAULT NULL COMMENT 'session属性',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='session信息表';
+
+-- 数据导出被取消选择。
 
 -- 导出  表 mydb.app 结构
 DROP TABLE IF EXISTS `app`;
 CREATE TABLE IF NOT EXISTS `app` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `app_name` varchar(60) NOT NULL COMMENT '应用名,非空',
+  `app_key` varchar(60) NOT NULL COMMENT '应用key,非空',
   `owner` varchar(45) NOT NULL COMMENT '负责人,非空',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系电话,可空',
   `email` varchar(45) DEFAULT NULL COMMENT '邮箱,可空',
@@ -144,6 +158,7 @@ CREATE TABLE IF NOT EXISTS `db_unit` (
   `port` int(11) NOT NULL COMMENT '端口号,非空',
   `db_server_id` int(32) DEFAULT NULL COMMENT 'MySQL服务器ServerId',
   `db_name` varchar(60) NOT NULL COMMENT '数据库名称',
+  `user_name` varchar(60) NOT NULL COMMENT '数据库密码',
   `passwd` varchar(60) NOT NULL COMMENT '数据库密码',
   `db_type` varchar(20) NOT NULL,
   `master_or_slave` varchar(20) NOT NULL COMMENT 'Master/Slave主备,非空',
@@ -325,7 +340,6 @@ CREATE TABLE `db_monitor_instance` (
   `db_minitor_Id` int(11) NOT NULL COMMENT '数据库组id,非空',
   `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
   `monitor_item` varchar(50) NOT NULL COMMENT '监控项',
-  `monitor_item_name` varchar(50) COMMENT '监控项描述',
   `status` varchar(20) NOT NULL COMMENT '状态：OK（正常）、WARNING（警告）、CRITICALl（宕机）',
   `monitor_value` int(11) NOT NULL COMMENT '监控值',
   `integral` int(3) NOT NULL COMMENT '积分（总分100）',

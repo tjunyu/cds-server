@@ -3,7 +3,6 @@ package com.wangyin.cds.server;
 import static com.wangyin.cds.server.Predefined.NODE_TYPE_MASTER;
 import static com.wangyin.cds.server.Predefined.NODE_TYPE_SLAVE;
 
-import java.nio.channels.ShutdownChannelGroupException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +11,6 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
-
-import ch.qos.logback.classic.Logger;
 
 /**
  * Master/Slave节点启动器

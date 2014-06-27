@@ -37,8 +37,6 @@ import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.stream.ChunkedFile;
 import io.netty.util.CharsetUtil;
-import io.netty.util.internal.SystemPropertyUtil;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
@@ -53,6 +51,8 @@ import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import javax.activation.MimetypesFileTypeMap;
+
+import com.wangyin.cds.server.ServerNode;
 
 /**   
  * @author wy   
@@ -77,7 +77,6 @@ public class FileServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
 	        final String uri = request.getUri();
 	        String path = sanitizeUri(uri);
-	        path = "D:/test/test.txt";
 	        if (path == null) {
 	            sendError(ctx, FORBIDDEN);
 	            return;
@@ -182,6 +181,8 @@ public class FileServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 	            return null;
 	        }
 
+	        uri = uri.replace("/script/", "");
+	        
 	        // Convert file separators.
 	        uri = uri.replace('/', File.separatorChar);
 
@@ -195,7 +196,8 @@ public class FileServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 	        }
 
 	        // Convert to absolute path.
-	        return SystemPropertyUtil.get("user.dir") + File.separator + uri;
+//	        return SystemPropertyUtil.get("user.dir") + File.separator + uri;
+	        return ServerNode.http_config.get("scriptRoot")+ File.separator + uri;
 	    }
 
 	    private static final Pattern ALLOWED_FILE_NAME = Pattern.compile("[A-Za-z0-9][-_A-Za-z0-9\\.]*");

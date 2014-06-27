@@ -32,6 +32,7 @@ public abstract class ServerNode {
 			.getLogger(ServerNode.class);
 	private static final String PROP_HTTP_SERVER = "http_server";
 	private static final Map<String, String> INTERNAL_MODULES = new HashMap<String, String>();
+	public static Map<String, Object> http_config;
 	static {
 		INTERNAL_MODULES.put(Predefined.MODULE_ADMIN,
 				"com.wangyin.cds.server.modules.admin.AdminModule");
@@ -70,8 +71,8 @@ public abstract class ServerNode {
 		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 		Map<String, Object> config = mapper.readValue(conf_stream, Map.class);
 		//configure HTTP SERVER
-		Map<String, Object> http_config = (Map<String, Object>) config.get(PROP_HTTP_SERVER);
-		httpDispatchInitializer = new HttpDispatchInitializer(http_config);
+		http_config = (Map<String, Object>) config.get(PROP_HTTP_SERVER);
+		httpDispatchInitializer = new HttpDispatchInitializer();
 		//configure MODULES
 		for (INodeModule module : modules.values()) {
 			Object config_value = config.get(module.getName());
@@ -86,7 +87,7 @@ public abstract class ServerNode {
 	}
 
 	private void startInternalMiniServer() {
-		logger.info("try to start internal http server on "+httpDispatchInitializer.getPort()+" which provides restful service");
+		logger.info("try to start internal http server on "+ServerNode.http_config.get("port")+" which provides restful service");
 		 EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 	     EventLoopGroup workerGroup = new NioEventLoopGroup();
 	     final ServerBootstrap sb = new ServerBootstrap();
@@ -96,10 +97,10 @@ public abstract class ServerNode {
 				sb.channel(NioServerSocketChannel.class)
 	             .childHandler(httpDispatchInitializer);
 				 try {
-					Channel ch = sb.bind(httpDispatchInitializer.getPort()).sync().channel();
+					Channel ch = sb.bind((Integer)ServerNode.http_config.get("port")).sync().channel();
 					ch.closeFuture().sync();
 				} catch (InterruptedException e) {
-					logger.error("fail to start internal server on "+httpDispatchInitializer.getPort(),e);
+					logger.error("fail to start internal server on "+ServerNode.http_config.get("port"),e);
 				}
 			}
 		});

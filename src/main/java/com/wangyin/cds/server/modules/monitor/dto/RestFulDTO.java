@@ -4,13 +4,13 @@ package com.wangyin.cds.server.modules.monitor.dto;
  */
 public class RestFulDTO<T> {
 	
-	private String errorCode;
+	private int errorCode;
     private String errMsg;
     private T resultInfo;
-	public String getErrorCode() {
+	public int getErrorCode() {
 		return errorCode;
 	}
-	public void setErrorCode(String errorCode) {
+	public void setErrorCode(int errorCode) {
 		this.errorCode = errorCode;
 	}
 	public String getErrMsg() {

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.wangyin.cds.server.persistence.AppDAO">
+
+	<resultMap type="com.wangyin.cds.server.persistence.model.App" id="AppResult">  
+		<id column="id" property="id"/>
+		<result column="app_name" property="appName"/>
+		<result column="app_key" property="appKey"/>
+		<result column="owner" property="owner"/>
+		<result column="phone" property="phone"/>
+		<result column="email" property="email"/>
+		<result column="attribute" property="attribute"/>
+		<result column="create_by" property="createBy"/>
+		<result column="creation_date" property="creationDate"/>
+		<result column="modified_by" property="modifiedBy"/>
+		<result column="modification_date" property="modificationDate"/>
+		<result column="delete_status" property="deleteStatus"/>
+    </resultMap>
+	
+	<sql id="columnsSql">
+		id,
+		app_name,
+		app_key,
+		owner,
+		phone,
+		email,
+		attribute,
+		create_by,
+		creation_date,
+		modified_by,
+		modification_date,
+		delete_status
+	</sql>
+	
+	<sql id="whereSql">
+		<where>
+			<if test="app !=null">
+				<if test="app.appName!=null">
+					and app_name = #{app.appName}
+				</if>
+				<if test="app.appKey!=null">
+					and app_key = #{app.appKey}
+				</if>
+				<if test="app.owner!=null">
+					and owner = #{app.owner}
+				</if>
+				<if test="app.phone!=null">
+					and phone = #{app.phone}
+				</if>
+				<if test="app.email!=null">
+					and email = #{app.email}
+				</if>
+				<if test="app.attribute!=null">
+					and attribute = #{app.attribute}
+				</if>
+				<if test="app.createBy!=null">
+					and create_by = #{app.createBy}
+				</if>
+				<if test="app.creationDate!=null">
+					and creation_date = #{app.creationDate}
+				</if>
+				<if test="app.modifiedBy!=null">
+					and modified_by = #{app.modifiedBy}
+				</if>
+				<if test="app.modificationDate!=null">
+					and modification_date = #{app.modificationDate}
+				</if>
+				<if test="app.deleteStatus!=null">
+					and delete_status = #{app.deleteStatus}
+				</if>
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getPageList" resultMap="AppResult">
+		select * from (select row_.*, rownum rownum_ from (
+			select 
+			<include refid="columnsSql"/>
+			from APP
+			<include refid="whereSql"/>
+		<![CDATA[
+      	)  row_ where rownum <= #{limit} + #{start}) where rownum_ > #{start} 
+		]]>
+	</select>
+	
+	<select id="count" resultType="java.lang.Integer">
+		select count(*) from APP
+		<include refid="whereSql"/>
+	</select>
+	
+	<select id="query" resultMap="AppResult">
+		select 
+		<include refid="columnsSql"/>
+		from APP
+		<include refid="whereSql"/>
+	</select>
+
+	<select id="load" resultMap="AppResult">
+		select 
+		<include refid="columnsSql"/>
+		from APP
+		where id=#{id}
+	</select>
+
+	<update id="update">
+		update APP
+		<set>
+			<if test="app.appName != null">app_name=#{app.appName},</if>
+			<if test="app.appKey != null">app_key=#{app.appKey},</if>
+			<if test="app.owner != null">owner=#{app.owner},</if>
+			<if test="app.phone != null">phone=#{app.phone},</if>
+			<if test="app.email != null">email=#{app.email},</if>
+			<if test="app.attribute != null">attribute=#{app.attribute},</if>
+			<if test="app.createBy != null">create_by=#{app.createBy},</if>
+			<if test="app.creationDate != null">creation_date=#{app.creationDate},</if>
+			<if test="app.modifiedBy != null">modified_by=#{app.modifiedBy},</if>
+			<if test="app.modificationDate != null">modification_date=#{app.modificationDate},</if>
+			<if test="app.deleteStatus != null">delete_status=#{app.deleteStatus}</if>
+		</set>
+		where id=#{app.id}
+	</update>
+
+	<insert id="insert" keyProperty="app.id">
+		insert into APP(
+			id
+			<if test="app.appName!=null">
+				,app_name
+			</if>
+			<if test="app.appKey!=null">
+				,app_key
+			</if>
+			<if test="app.owner!=null">
+				,owner
+			</if>
+			<if test="app.phone!=null">
+				,phone
+			</if>
+			<if test="app.email!=null">
+				,email
+			</if>
+			<if test="app.attribute!=null">
+				,attribute
+			</if>
+			<if test="app.createBy!=null">
+				,create_by
+			</if>
+			<if test="app.creationDate!=null">
+				,creation_date
+			</if>
+			<if test="app.modifiedBy!=null">
+				,modified_by
+			</if>
+			<if test="app.modificationDate!=null">
+				,modification_date
+			</if>
+			<if test="app.deleteStatus!=null">
+				,delete_status
+			</if>
+		) values(
+			 #{app.id}
+			<if test="app.appName!=null">
+				 ,#{app.appName}
+			</if>
+			<if test="app.appKey!=null">
+				 ,#{app.appKey}
+			</if>
+			<if test="app.owner!=null">
+				 ,#{app.owner}
+			</if>
+			<if test="app.phone!=null">
+				 ,#{app.phone}
+			</if>
+			<if test="app.email!=null">
+				 ,#{app.email}
+			</if>
+			<if test="app.attribute!=null">
+				 ,#{app.attribute}
+			</if>
+			<if test="app.createBy!=null">
+				 ,#{app.createBy}
+			</if>
+			<if test="app.creationDate!=null">
+				 ,#{app.creationDate}
+			</if>
+			<if test="app.modifiedBy!=null">
+				 ,#{app.modifiedBy}
+			</if>
+			<if test="app.modificationDate!=null">
+				 ,#{app.modificationDate}
+			</if>
+			<if test="app.deleteStatus!=null">
+				 ,#{app.deleteStatus}
+			</if>
+		)
+	</insert>
+
+	<delete id="delete">
+		delete from APP
+		where id=#{id}
+	</delete>
+
+</mapper> 

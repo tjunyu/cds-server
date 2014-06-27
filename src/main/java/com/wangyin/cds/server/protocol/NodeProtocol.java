@@ -78,7 +78,8 @@ public final class NodeProtocol {
       return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @Override
+	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -103,7 +104,8 @@ public final class NodeProtocol {
     private void initFields() {
     }
     private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
+    @Override
+	public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
@@ -111,14 +113,16 @@ public final class NodeProtocol {
       return true;
     }
 
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
+    @Override
+	public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
       getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
+    @Override
+	public int getSerializedSize() {
       int size = memoizedSerializedSize;
       if (size != -1) return size;
 
@@ -212,7 +216,8 @@ public final class NodeProtocol {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @Override
+	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -237,16 +242,19 @@ public final class NodeProtocol {
         return new Builder();
       }
 
-      public Builder clear() {
+      @Override
+	public Builder clear() {
         super.clear();
         return this;
       }
 
-      public Builder clone() {
+      @Override
+	public Builder clone() {
         return create().mergeFrom(buildPartial());
       }
 
-      public com.google.protobuf.Descriptors.Descriptor
+      @Override
+	public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_descriptor;
       }
@@ -269,7 +277,8 @@ public final class NodeProtocol {
         return result;
       }
 
-      public Builder mergeFrom(com.google.protobuf.Message other) {
+      @Override
+	public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.wangyin.cds.server.protocol.NodeProtocol.NRequest) {
           return mergeFrom((com.wangyin.cds.server.protocol.NodeProtocol.NRequest)other);
         } else {
@@ -284,11 +293,13 @@ public final class NodeProtocol {
         return this;
       }
 
-      public final boolean isInitialized() {
+      @Override
+	public final boolean isInitialized() {
         return true;
       }
 
-      public Builder mergeFrom(
+      @Override
+	public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -387,7 +398,8 @@ public final class NodeProtocol {
       return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @Override
+	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -412,7 +424,8 @@ public final class NodeProtocol {
     private void initFields() {
     }
     private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
+    @Override
+	public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
@@ -420,14 +433,16 @@ public final class NodeProtocol {
       return true;
     }
 
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
+    @Override
+	public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
       getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
+    @Override
+	public int getSerializedSize() {
       int size = memoizedSerializedSize;
       if (size != -1) return size;
 
@@ -521,7 +536,8 @@ public final class NodeProtocol {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @Override
+	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -546,16 +562,19 @@ public final class NodeProtocol {
         return new Builder();
       }
 
-      public Builder clear() {
+      @Override
+	public Builder clear() {
         super.clear();
         return this;
       }
 
-      public Builder clone() {
+      @Override
+	public Builder clone() {
         return create().mergeFrom(buildPartial());
       }
 
-      public com.google.protobuf.Descriptors.Descriptor
+      @Override
+	public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_descriptor;
       }
@@ -578,7 +597,8 @@ public final class NodeProtocol {
         return result;
       }
 
-      public Builder mergeFrom(com.google.protobuf.Message other) {
+      @Override
+	public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.wangyin.cds.server.protocol.NodeProtocol.NResponse) {
           return mergeFrom((com.wangyin.cds.server.protocol.NodeProtocol.NResponse)other);
         } else {
@@ -593,11 +613,13 @@ public final class NodeProtocol {
         return this;
       }
 
-      public final boolean isInitialized() {
+      @Override
+	public final boolean isInitialized() {
         return true;
       }
 
-      public Builder mergeFrom(
+      @Override
+	public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {

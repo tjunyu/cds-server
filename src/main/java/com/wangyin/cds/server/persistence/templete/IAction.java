@@ -7,6 +7,6 @@ import org.apache.ibatis.session.SqlSession;
  */
 public interface IAction {
 	
-	public ResultInfo doAction(SqlSession session);
+	public Object doAction(SqlSession session) throws Exception;
 
 }

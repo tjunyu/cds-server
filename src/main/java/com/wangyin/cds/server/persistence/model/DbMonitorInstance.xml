@@ -10,7 +10,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<result column="db_minitor_Id" property="dbMinitorId"/>
 		<result column="creation_date" property="creationDate"/>
 		<result column="monitor_item" property="monitorItem"/>
-		<result column="monitor_item_name" property="monitorItemName"/>
 		<result column="status" property="status"/>
 		<result column="monitor_value" property="monitorValue"/>
 		<result column="integral" property="integral"/>
@@ -23,7 +22,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		db_minitor_Id,
 		creation_date,
 		monitor_item,
-		monitor_item_name,
 		status,
 		monitor_value,
 		integral,
@@ -42,9 +40,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 				</if>
 				<if test="dbMonitorInstance.monitorItem!=null">
 					and monitor_item = #{dbMonitorInstance.monitorItem}
-				</if>
-				<if test="dbMonitorInstance.monitorItemName!=null">
-					and monitor_item_name = #{dbMonitorInstance.monitorItemName}
 				</if>
 				<if test="dbMonitorInstance.status!=null">
 					and status = #{dbMonitorInstance.status}
@@ -101,7 +96,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			<if test="dbMonitorInstance.dbMinitorId != null">db_minitor_Id=#{dbMonitorInstance.dbMinitorId},</if>
 			<if test="dbMonitorInstance.creationDate != null">creation_date=#{dbMonitorInstance.creationDate},</if>
 			<if test="dbMonitorInstance.monitorItem != null">monitor_item=#{dbMonitorInstance.monitorItem},</if>
-			<if test="dbMonitorInstance.monitorItemName != null">monitor_item_name=#{dbMonitorInstance.monitorItemName},</if>
 			<if test="dbMonitorInstance.status != null">status=#{dbMonitorInstance.status},</if>
 			<if test="dbMonitorInstance.monitorValue != null">monitor_value=#{dbMonitorInstance.monitorValue},</if>
 			<if test="dbMonitorInstance.integral != null">integral=#{dbMonitorInstance.integral},</if>
@@ -122,9 +116,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="dbMonitorInstance.monitorItem!=null">
 				,monitor_item
-			</if>
-			<if test="dbMonitorInstance.monitorItemName!=null">
-				,monitor_item_name
 			</if>
 			<if test="dbMonitorInstance.status!=null">
 				,status
@@ -151,9 +142,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			</if>
 			<if test="dbMonitorInstance.monitorItem!=null">
 				 ,#{dbMonitorInstance.monitorItem}
-			</if>
-			<if test="dbMonitorInstance.monitorItemName!=null">
-				 ,#{dbMonitorInstance.monitorItemName}
 			</if>
 			<if test="dbMonitorInstance.status!=null">
 				 ,#{dbMonitorInstance.status}

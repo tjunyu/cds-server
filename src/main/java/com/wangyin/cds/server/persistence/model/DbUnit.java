@@ -3,8 +3,14 @@ package com.wangyin.cds.server.persistence.model;
 import java.util.Date;
 import java.io.Serializable;
 
-
+/**   
+ * @author wy   
+ */
 public class DbUnit implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 227593456682529758L;
 	private Integer id;
 	private Integer dbHostGroupId;
 	private String ip;

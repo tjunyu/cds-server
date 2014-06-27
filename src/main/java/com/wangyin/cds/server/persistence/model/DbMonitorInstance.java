@@ -17,7 +17,6 @@ public class DbMonitorInstance implements Serializable {
 	private Integer dbMinitorId;
 	private Date creationDate;
 	private String monitorItem;
-	private String monitorItemName;
 	private String status;
 	private Integer monitorValue;
 	private Integer integral;
@@ -54,14 +53,6 @@ public class DbMonitorInstance implements Serializable {
 	
 	public void setMonitorItem(String monitorItem) {
  		this.monitorItem = monitorItem;
-	}
-
-	public String getMonitorItemName() {
- 		return this.monitorItemName;
-	}
-	
-	public void setMonitorItemName(String monitorItemName) {
- 		this.monitorItemName = monitorItemName;
 	}
 
 	public String getStatus() {

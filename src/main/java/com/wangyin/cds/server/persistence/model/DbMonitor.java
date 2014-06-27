@@ -7,6 +7,12 @@ import java.io.Serializable;
  * @author wy   
  */
 public class DbMonitor implements Serializable {
+	public final static String   OK   = "OK";
+    
+    public final static String WARNING     = "WARNING";
+    
+    public final static String CRITICALl     = "CRITICALl";
+
 	/**
 	 * 
 	 */

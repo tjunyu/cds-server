@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.wangyin.cds.server.persistence.CdsSessionDAO">
+
+	<resultMap type="com.wangyin.cds.server.persistence.model.CdsSessionDO" id="CdsSessionResult">  
+		<id column="id" property="id"/>
+		<result column="session_id" property="sessionId"/>
+		<result column="created_time" property="createdTime"/>
+		<result column="last_access_time" property="lastAccessTime"/>
+		<result column="status" property="status"/>
+		<result column="attributes" property="attributes"/>
+    </resultMap>
+	
+	<sql id="columnsSql">
+		id,
+		session_id,
+		created_time,
+		last_access_time,
+		status,
+		attributes
+	</sql>
+	
+	<sql id="whereSql">
+		<where>
+			<if test="cdsSession !=null">
+				<if test="cdsSession.sessionId!=null">
+					and session_id = #{cdsSession.sessionId}
+				</if>
+				<if test="cdsSession.createdTime!=null">
+					and created_time = #{cdsSession.createdTime}
+				</if>
+				<if test="cdsSession.lastAccessTime!=null">
+					and last_access_time = #{cdsSession.lastAccessTime}
+				</if>
+				<if test="cdsSession.status!=null">
+					and status = #{cdsSession.status}
+				</if>
+				<if test="cdsSession.attributes!=null">
+					and attributes = #{cdsSession.attributes}
+				</if>
+			</if>
+		</where>
+	</sql>
+	
+	<select id="getPageList" resultMap="CdsSessionResult">
+		    select 
+			<include refid="columnsSql"/>
+			from CDS_SESSION limit #{start},#{limit}
+	</select>
+	
+	<select id="count" resultType="java.lang.Integer">
+		select count(*) from CDS_SESSION
+		<include refid="whereSql"/>
+	</select>
+	
+	<select id="query" resultMap="CdsSessionResult">
+		select 
+		<include refid="columnsSql"/>
+		from CDS_SESSION
+		<include refid="whereSql"/>
+	</select>
+
+	<select id="load" resultMap="CdsSessionResult">
+		select 
+		<include refid="columnsSql"/>
+		from CDS_SESSION
+		where id=#{id}
+	</select>
+
+	<update id="update">
+		update CDS_SESSION
+		<set>
+			<if test="cdsSession.sessionId != null">session_id=#{cdsSession.sessionId},</if>
+			<if test="cdsSession.createdTime != null">created_time=#{cdsSession.createdTime},</if>
+			<if test="cdsSession.lastAccessTime != null">last_access_time=#{cdsSession.lastAccessTime},</if>
+			<if test="cdsSession.status != null">status=#{cdsSession.status},</if>
+			<if test="cdsSession.attributes != null">attributes=#{cdsSession.attributes}</if>
+		</set>
+		where session_id=#{cdsSession.sessionId}
+	</update>
+
+	<insert id="insert" keyProperty="cdsSession.id">
+		insert into CDS_SESSION(
+			id
+			<if test="cdsSession.sessionId!=null">
+				,session_id
+			</if>
+			<if test="cdsSession.createdTime!=null">
+				,created_time
+			</if>
+			<if test="cdsSession.lastAccessTime!=null">
+				,last_access_time
+			</if>
+			<if test="cdsSession.status!=null">
+				,status
+			</if>
+			<if test="cdsSession.attributes!=null">
+				,attributes
+			</if>
+		) values(
+			 #{cdsSession.id}
+			<if test="cdsSession.sessionId!=null">
+				 ,#{cdsSession.sessionId}
+			</if>
+			<if test="cdsSession.createdTime!=null">
+				 ,#{cdsSession.createdTime}
+			</if>
+			<if test="cdsSession.lastAccessTime!=null">
+				 ,#{cdsSession.lastAccessTime}
+			</if>
+			<if test="cdsSession.status!=null">
+				 ,#{cdsSession.status}
+			</if>
+			<if test="cdsSession.attributes!=null">
+				 ,#{cdsSession.attributes}
+			</if>
+		)
+	</insert>
+
+	<delete id="delete">
+		delete from CDS_SESSION
+		where session_id=#{cdsSession.sessionId}
+	</delete>
+
+</mapper> 

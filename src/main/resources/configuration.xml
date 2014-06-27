@@ -25,5 +25,7 @@
         <mapper resource="com/wangyin/cds/server/persistence/model/DbMonitorGroup.xml"/>
         <mapper resource="com/wangyin/cds/server/persistence/model/DbUnit.xml"/>
         <mapper resource="com/wangyin/cds/server/persistence/model/DbMonitorInstance.xml"/>
+        <mapper resource="com/wangyin/cds/server/persistence/model/App.xml"/>
+        <mapper resource="com/wangyin/cds/server/persistence/model/CdsSession.xml"/>
     </mappers>
 </configuration>
