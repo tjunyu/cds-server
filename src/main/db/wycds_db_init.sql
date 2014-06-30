@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `cds_session` (
   `session_id` varchar(1000) NOT NULL COMMENT 'session_id,非空',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `last_access_time` datetime NOT NULL COMMENT '最后一次访问时间',
+  `ip` varchar(30) NOT NULL COMMENT 'server的ip',
   `status` varchar(45) DEFAULT NULL COMMENT '状态',
   `attributes` varchar(45) DEFAULT NULL COMMENT 'session属性',
   PRIMARY KEY (`id`)
@@ -330,6 +331,22 @@ CREATE TABLE `db_monitor` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据库监控配置表';
 
+DROP TABLE IF EXISTS `db_event`;
+
+CREATE TABLE `db_event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL,
+  `event_type` varchar(50) NOT NULL COMMENT '事件类型',
+  `db_monitor_group_id` int(11) NOT NULL COMMENT '监控组id,非空',
+  `db_info_Id` int(11) NOT NULL COMMENT '监控数据库id,非空',
+  `db_monitor_Id` int(11) NOT NULL COMMENT '监控项id,非空',
+  `ip` varchar(20) NOT NULL COMMENT 'ip地址,非空',
+  `port` int(11) NOT NULL COMMENT '端口号,非空',
+  `db_type` varchar(50) NOT NULL COMMENT '事件类型',
+  `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
+  `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='事件表';
 
 
 /*Table structure for table `db_monitor_instance` */

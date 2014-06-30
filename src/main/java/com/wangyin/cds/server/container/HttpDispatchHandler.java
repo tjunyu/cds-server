@@ -29,9 +29,11 @@ public class HttpDispatchHandler extends SimpleChannelInboundHandler<FullHttpReq
 
 	private FileServerHandler fileServerHandler;
 	private MiniNettyContainer miniNettyContainer;
+	private FileUploadServerHandler fileUploadServerHandler;
 	public HttpDispatchHandler(SessionManager sessionManager){
 		this.fileServerHandler = new FileServerHandler();
 		this.miniNettyContainer = ContainerFactory.createContainer(MiniNettyContainer.class, initApplcation(sessionManager));
+	    this.fileUploadServerHandler = new FileUploadServerHandler();
 	}
 
 	
@@ -44,7 +46,9 @@ public class HttpDispatchHandler extends SimpleChannelInboundHandler<FullHttpReq
 			ctx.channel().pipeline().addLast("rest", miniNettyContainer);
 		}else if(uri.contains("/script/")){
 			ctx.channel().pipeline().addLast("script", fileServerHandler);
-		}
+		}else if(uri.contains("/upFile/")){
+            ctx.channel().pipeline().addLast("fileup", fileUploadServerHandler);
+        }
 		ctx.fireChannelRead(request);
 	}
 

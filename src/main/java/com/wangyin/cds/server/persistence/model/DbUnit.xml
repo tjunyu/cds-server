@@ -1,229 +1,241 @@
-<?xml version="1.0" encoding="UTF-8" ?>    
-<!DOCTYPE mapper    
-PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
-"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="com.wangyin.cds.server.persistence.DbUnitDAO">
 
-	<resultMap type="com.wangyin.cds.server.persistence.model.DbUnit" id="DbUnitResult">  
-		<id column="id" property="id"/>
-		<result column="db_host_group_id" property="dbHostGroupId"/>
-		<result column="ip" property="ip"/>
-		<result column="port" property="port"/>
-		<result column="db_server_id" property="dbServerId"/>
-		<result column="db_name" property="dbName"/>
-		<result column="passwd" property="passwd"/>
-		<result column="db_type" property="dbType"/>
-		<result column="master_or_slave" property="masterOrSlave"/>
-		<result column="create_by" property="createBy"/>
-		<result column="creation_date" property="creationDate"/>
-		<result column="modified_by" property="modifiedBy"/>
-		<result column="modification_date" property="modificationDate"/>
-		<result column="delete_status" property="deleteStatus"/>
+    <resultMap type="com.wangyin.cds.server.persistence.model.DbUnit" id="DbUnitResult">
+        <id column="id" property="id"/>
+        <result column="db_host_group_id" property="dbHostGroupId"/>
+        <result column="ip" property="ip"/>
+        <result column="port" property="port"/>
+        <result column="db_server_id" property="dbServerId"/>
+        <result column="db_name" property="dbName"/>
+        <result column="user_name" property="userName"/>
+        <result column="passwd" property="passwd"/>
+        <result column="db_type" property="dbType"/>
+        <result column="master_or_slave" property="masterOrSlave"/>
+        <result column="create_by" property="createBy"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="modified_by" property="modifiedBy"/>
+        <result column="modification_date" property="modificationDate"/>
+        <result column="delete_status" property="deleteStatus"/>
     </resultMap>
-	
-	<sql id="columnsSql">
-		id,
-		db_host_group_id,
-		ip,
-		port,
-		db_server_id,
-		db_name,
-		passwd,
-		db_type,
-		master_or_slave,
-		create_by,
-		creation_date,
-		modified_by,
-		modification_date,
-		delete_status
-	</sql>
-	
-	<sql id="whereSql">
-		<where>
-			<if test="dbUnit !=null">
-				<if test="dbUnit.dbHostGroupId!=null">
-					and db_host_group_id = #{dbUnit.dbHostGroupId}
-				</if>
-				<if test="dbUnit.ip!=null">
-					and ip = #{dbUnit.ip}
-				</if>
-				<if test="dbUnit.port!=null">
-					and port = #{dbUnit.port}
-				</if>
-				<if test="dbUnit.dbServerId!=null">
-					and db_server_id = #{dbUnit.dbServerId}
-				</if>
-				<if test="dbUnit.dbName!=null">
-					and db_name = #{dbUnit.dbName}
-				</if>
-				<if test="dbUnit.passwd!=null">
-					and passwd = #{dbUnit.passwd}
-				</if>
-				<if test="dbUnit.dbType!=null">
-					and db_type = #{dbUnit.dbType}
-				</if>
-				<if test="dbUnit.masterOrSlave!=null">
-					and master_or_slave = #{dbUnit.masterOrSlave}
-				</if>
-				<if test="dbUnit.createBy!=null">
-					and create_by = #{dbUnit.createBy}
-				</if>
-				<if test="dbUnit.creationDate!=null">
-					and creation_date = #{dbUnit.creationDate}
-				</if>
-				<if test="dbUnit.modifiedBy!=null">
-					and modified_by = #{dbUnit.modifiedBy}
-				</if>
-				<if test="dbUnit.modificationDate!=null">
-					and modification_date = #{dbUnit.modificationDate}
-				</if>
-				<if test="dbUnit.deleteStatus!=null">
-					and delete_status = #{dbUnit.deleteStatus}
-				</if>
-			</if>
-		</where>
-	</sql>
-	
-	<select id="getPageList" resultMap="DbUnitResult">
-		select * from (select row_.*, rownum rownum_ from (
-			select 
-			<include refid="columnsSql"/>
-			from DB_UNIT
-			<include refid="whereSql"/>
-		<![CDATA[
-      	)  row_ where rownum <= #{limit} + #{start}) where rownum_ > #{start} 
+
+    <sql id="columnsSql">
+        id,
+        db_host_group_id,
+        ip,
+        port,
+        db_server_id,
+        db_name,
+        user_name,
+        passwd,
+        db_type,
+        master_or_slave,
+        create_by,
+        creation_date,
+        modified_by,
+        modification_date,
+        delete_status
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="dbUnit !=null">
+                <if test="dbUnit.dbHostGroupId!=null">
+                    and db_host_group_id = #{dbUnit.dbHostGroupId}
+                </if>
+                <if test="dbUnit.ip!=null">
+                    and ip = #{dbUnit.ip}
+                </if>
+                <if test="dbUnit.port!=null">
+                    and port = #{dbUnit.port}
+                </if>
+                <if test="dbUnit.dbServerId!=null">
+                    and db_server_id = #{dbUnit.dbServerId}
+                </if>
+                <if test="dbUnit.dbName!=null">
+                    and db_name = #{dbUnit.dbName}
+                </if>
+                <if test="dbUnit.userName!=null">
+                    and user_name = #{dbUnit.userName}
+                </if>
+                <if test="dbUnit.passwd!=null">
+                    and passwd = #{dbUnit.passwd}
+                </if>
+                <if test="dbUnit.dbType!=null">
+                    and db_type = #{dbUnit.dbType}
+                </if>
+                <if test="dbUnit.masterOrSlave!=null">
+                    and master_or_slave = #{dbUnit.masterOrSlave}
+                </if>
+                <if test="dbUnit.createBy!=null">
+                    and create_by = #{dbUnit.createBy}
+                </if>
+                <if test="dbUnit.creationDate!=null">
+                    and creation_date = #{dbUnit.creationDate}
+                </if>
+                <if test="dbUnit.modifiedBy!=null">
+                    and modified_by = #{dbUnit.modifiedBy}
+                </if>
+                <if test="dbUnit.modificationDate!=null">
+                    and modification_date = #{dbUnit.modificationDate}
+                </if>
+                <if test="dbUnit.deleteStatus!=null">
+                    and delete_status = #{dbUnit.deleteStatus}
+                </if>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getPageList" resultMap="DbUnitResult">
+        select * from (select row_.*, rownum rownum_ from (
+        select
+        <include refid="columnsSql"/>
+        from DB_UNIT
+        <include refid="whereSql"/>
+        <![CDATA[
+      	)  row_ where rownum <= #{limit} + #{start}) where rownum_ > #{start}
 		]]>
-	</select>
-	
-	<select id="count" resultType="java.lang.Integer">
-		select count(*) from DB_UNIT
-		<include refid="whereSql"/>
-	</select>
-	
-	<select id="query" resultMap="DbUnitResult">
-		select 
-		<include refid="columnsSql"/>
-		from DB_UNIT
-		<include refid="whereSql"/>
-	</select>
+    </select>
 
-	<select id="load" resultMap="DbUnitResult">
-		select 
-		<include refid="columnsSql"/>
-		from DB_UNIT
-		where id=#{id}
-	</select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from DB_UNIT
+        <include refid="whereSql"/>
+    </select>
 
-	<update id="update">
-		update DB_UNIT
-		<set>
-			<if test="dbUnit.dbHostGroupId != null">db_host_group_id=#{dbUnit.dbHostGroupId},</if>
-			<if test="dbUnit.ip != null">ip=#{dbUnit.ip},</if>
-			<if test="dbUnit.port != null">port=#{dbUnit.port},</if>
-			<if test="dbUnit.dbServerId != null">db_server_id=#{dbUnit.dbServerId},</if>
-			<if test="dbUnit.dbName != null">db_name=#{dbUnit.dbName},</if>
-			<if test="dbUnit.passwd != null">passwd=#{dbUnit.passwd},</if>
-			<if test="dbUnit.dbType != null">db_type=#{dbUnit.dbType},</if>
-			<if test="dbUnit.masterOrSlave != null">master_or_slave=#{dbUnit.masterOrSlave},</if>
-			<if test="dbUnit.createBy != null">create_by=#{dbUnit.createBy},</if>
-			<if test="dbUnit.creationDate != null">creation_date=#{dbUnit.creationDate},</if>
-			<if test="dbUnit.modifiedBy != null">modified_by=#{dbUnit.modifiedBy},</if>
-			<if test="dbUnit.modificationDate != null">modification_date=#{dbUnit.modificationDate},</if>
-			<if test="dbUnit.deleteStatus != null">delete_status=#{dbUnit.deleteStatus}</if>
-		</set>
-		where id=#{dbUnit.id}
-	</update>
+    <select id="query" resultMap="DbUnitResult">
+        select
+        <include refid="columnsSql"/>
+        from DB_UNIT
+        <include refid="whereSql"/>
+    </select>
 
-	<insert id="insert" keyProperty="dbUnit.id">
-		insert into DB_UNIT(
-			id
-			<if test="dbUnit.dbHostGroupId!=null">
-				,db_host_group_id
-			</if>
-			<if test="dbUnit.ip!=null">
-				,ip
-			</if>
-			<if test="dbUnit.port!=null">
-				,port
-			</if>
-			<if test="dbUnit.dbServerId!=null">
-				,db_server_id
-			</if>
-			<if test="dbUnit.dbName!=null">
-				,db_name
-			</if>
-			<if test="dbUnit.passwd!=null">
-				,passwd
-			</if>
-			<if test="dbUnit.dbType!=null">
-				,db_type
-			</if>
-			<if test="dbUnit.masterOrSlave!=null">
-				,master_or_slave
-			</if>
-			<if test="dbUnit.createBy!=null">
-				,create_by
-			</if>
-			<if test="dbUnit.creationDate!=null">
-				,creation_date
-			</if>
-			<if test="dbUnit.modifiedBy!=null">
-				,modified_by
-			</if>
-			<if test="dbUnit.modificationDate!=null">
-				,modification_date
-			</if>
-			<if test="dbUnit.deleteStatus!=null">
-				,delete_status
-			</if>
-		) values(
-			 #{dbUnit.id}
-			<if test="dbUnit.dbHostGroupId!=null">
-				 ,#{dbUnit.dbHostGroupId}
-			</if>
-			<if test="dbUnit.ip!=null">
-				 ,#{dbUnit.ip}
-			</if>
-			<if test="dbUnit.port!=null">
-				 ,#{dbUnit.port}
-			</if>
-			<if test="dbUnit.dbServerId!=null">
-				 ,#{dbUnit.dbServerId}
-			</if>
-			<if test="dbUnit.dbName!=null">
-				 ,#{dbUnit.dbName}
-			</if>
-			<if test="dbUnit.passwd!=null">
-				 ,#{dbUnit.passwd}
-			</if>
-			<if test="dbUnit.dbType!=null">
-				 ,#{dbUnit.dbType}
-			</if>
-			<if test="dbUnit.masterOrSlave!=null">
-				 ,#{dbUnit.masterOrSlave}
-			</if>
-			<if test="dbUnit.createBy!=null">
-				 ,#{dbUnit.createBy}
-			</if>
-			<if test="dbUnit.creationDate!=null">
-				 ,#{dbUnit.creationDate}
-			</if>
-			<if test="dbUnit.modifiedBy!=null">
-				 ,#{dbUnit.modifiedBy}
-			</if>
-			<if test="dbUnit.modificationDate!=null">
-				 ,#{dbUnit.modificationDate}
-			</if>
-			<if test="dbUnit.deleteStatus!=null">
-				 ,#{dbUnit.deleteStatus}
-			</if>
-		)
-	</insert>
+    <select id="load" resultMap="DbUnitResult">
+        select
+        <include refid="columnsSql"/>
+        from DB_UNIT
+        where id=#{id}
+    </select>
 
-	<delete id="delete">
-		delete from DB_UNIT
-		where id=#{id}
-	</delete>
+    <update id="update">
+        update DB_UNIT
+        <set>
+            <if test="dbUnit.dbHostGroupId != null">db_host_group_id=#{dbUnit.dbHostGroupId},</if>
+            <if test="dbUnit.ip != null">ip=#{dbUnit.ip},</if>
+            <if test="dbUnit.port != null">port=#{dbUnit.port},</if>
+            <if test="dbUnit.dbServerId != null">db_server_id=#{dbUnit.dbServerId},</if>
+            <if test="dbUnit.dbName != null">db_name=#{dbUnit.dbName},</if>
+            <if test="dbUnit.userName != null">user_name=#{dbUnit.userName},</if>
+            <if test="dbUnit.passwd != null">passwd=#{dbUnit.passwd},</if>
+            <if test="dbUnit.dbType != null">db_type=#{dbUnit.dbType},</if>
+            <if test="dbUnit.masterOrSlave != null">master_or_slave=#{dbUnit.masterOrSlave},</if>
+            <if test="dbUnit.createBy != null">create_by=#{dbUnit.createBy},</if>
+            <if test="dbUnit.creationDate != null">creation_date=#{dbUnit.creationDate},</if>
+            <if test="dbUnit.modifiedBy != null">modified_by=#{dbUnit.modifiedBy},</if>
+            <if test="dbUnit.modificationDate != null">modification_date=#{dbUnit.modificationDate},</if>
+            <if test="dbUnit.deleteStatus != null">delete_status=#{dbUnit.deleteStatus}</if>
+        </set>
+        where id=#{dbUnit.id}
+    </update>
 
-</mapper> 
+    <insert id="insert" keyProperty="dbUnit.id">
+        insert into DB_UNIT(
+        id
+        <if test="dbUnit.dbHostGroupId!=null">
+            ,db_host_group_id
+        </if>
+        <if test="dbUnit.ip!=null">
+            ,ip
+        </if>
+        <if test="dbUnit.port!=null">
+            ,port
+        </if>
+        <if test="dbUnit.dbServerId!=null">
+            ,db_server_id
+        </if>
+        <if test="dbUnit.dbName!=null">
+            ,db_name
+        </if>
+        <if test="dbUnit.userName!=null">
+            ,user_name
+        </if>
+        <if test="dbUnit.passwd!=null">
+            ,passwd
+        </if>
+        <if test="dbUnit.dbType!=null">
+            ,db_type
+        </if>
+        <if test="dbUnit.masterOrSlave!=null">
+            ,master_or_slave
+        </if>
+        <if test="dbUnit.createBy!=null">
+            ,create_by
+        </if>
+        <if test="dbUnit.creationDate!=null">
+            ,creation_date
+        </if>
+        <if test="dbUnit.modifiedBy!=null">
+            ,modified_by
+        </if>
+        <if test="dbUnit.modificationDate!=null">
+            ,modification_date
+        </if>
+        <if test="dbUnit.deleteStatus!=null">
+            ,delete_status
+        </if>
+        ) values(
+        #{dbUnit.id}
+        <if test="dbUnit.dbHostGroupId!=null">
+            ,#{dbUnit.dbHostGroupId}
+        </if>
+        <if test="dbUnit.ip!=null">
+            ,#{dbUnit.ip}
+        </if>
+        <if test="dbUnit.port!=null">
+            ,#{dbUnit.port}
+        </if>
+        <if test="dbUnit.dbServerId!=null">
+            ,#{dbUnit.dbServerId}
+        </if>
+        <if test="dbUnit.dbName!=null">
+            ,#{dbUnit.dbName}
+        </if>
+        <if test="dbUnit.userName!=null">
+            ,#{dbUnit.userName}
+        </if>
+        <if test="dbUnit.passwd!=null">
+            ,#{dbUnit.passwd}
+        </if>
+        <if test="dbUnit.dbType!=null">
+            ,#{dbUnit.dbType}
+        </if>
+        <if test="dbUnit.masterOrSlave!=null">
+            ,#{dbUnit.masterOrSlave}
+        </if>
+        <if test="dbUnit.createBy!=null">
+            ,#{dbUnit.createBy}
+        </if>
+        <if test="dbUnit.creationDate!=null">
+            ,#{dbUnit.creationDate}
+        </if>
+        <if test="dbUnit.modifiedBy!=null">
+            ,#{dbUnit.modifiedBy}
+        </if>
+        <if test="dbUnit.modificationDate!=null">
+            ,#{dbUnit.modificationDate}
+        </if>
+        <if test="dbUnit.deleteStatus!=null">
+            ,#{dbUnit.deleteStatus}
+        </if>
+        )
+    </insert>
+
+    <delete id="delete">
+        delete from DB_UNIT
+        where id=#{id}
+    </delete>
+
+</mapper>

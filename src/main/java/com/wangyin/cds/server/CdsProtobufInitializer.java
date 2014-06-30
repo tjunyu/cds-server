@@ -17,6 +17,7 @@ public class CdsProtobufInitializer extends ChannelInitializer<SocketChannel> {
 	public CdsProtobufInitializer(Class<?extends ChannelHandler> cls){
 		this.clsHandler = cls;
 	}
+
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pl = ch.pipeline();

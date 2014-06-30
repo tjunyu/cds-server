@@ -3,7 +3,18 @@ package protobuf.socketrpc;
 option java_package = "com.wangyin.cds.server.protocol";
 option java_outer_classname = "NodeProtocol";
 
+enum Rrtype{
+    REQ_FILE_PROGATE=0;
+}
 message NRequest{
+    required Rrtype type=1[default=REQ_FILE_PROGATE];
+    optional NFile file=2;
+}
+message NFile{
+    required string path=1;
+    required bytes content=2;
 }
 message NResponse{
+    required Rrtype type=1[default=REQ_FILE_PROGATE];
+    optional int32 fileProgStatus=2;
 }

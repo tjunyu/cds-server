@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.wangyin.cds.server.persistence.DbEventDAO">
+
+    <resultMap type="com.wangyin.cds.server.persistence.model.DbEvent" id="DbEventResult">
+        <id column="id" property="id"/>
+        <result column="event_id" property="eventId"/>
+        <result column="event_type" property="eventType"/>
+        <result column="db_monitor_group_id" property="dbMonitorGroupId"/>
+        <result column="db_info_Id" property="dbInfoId"/>
+        <result column="db_monitor_Id" property="dbMonitorId"/>
+        <result column="ip" property="ip"/>
+        <result column="port" property="port"/>
+        <result column="db_type" property="dbType"/>
+        <result column="create_by" property="createBy"/>
+        <result column="creation_date" property="creationDate"/>
+    </resultMap>
+
+    <sql id="columnsSql">
+        id,
+        event_id,
+        event_type,
+        db_monitor_group_id,
+        db_info_Id,
+        db_monitor_Id,
+        ip,
+        port,
+        db_type,
+        create_by,
+        creation_date
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="dbEvent !=null">
+                <if test="dbEvent.eventId!=null">
+                    and event_id = #{dbEvent.eventId}
+                </if>
+                <if test="dbEvent.eventType!=null">
+                    and event_type = #{dbEvent.eventType}
+                </if>
+                <if test="dbEvent.dbMonitorGroupId!=null">
+                    and db_monitor_group_id = #{dbEvent.dbMonitorGroupId}
+                </if>
+                <if test="dbEvent.dbInfoId!=null">
+                    and db_info_Id = #{dbEvent.dbInfoId}
+                </if>
+                <if test="dbEvent.dbMonitorId!=null">
+                    and db_monitor_Id = #{dbEvent.dbMonitorId}
+                </if>
+                <if test="dbEvent.ip!=null">
+                    and ip = #{dbEvent.ip}
+                </if>
+                <if test="dbEvent.port!=null">
+                    and port = #{dbEvent.port}
+                </if>
+                <if test="dbEvent.dbType!=null">
+                    and db_type = #{dbEvent.dbType}
+                </if>
+                <if test="dbEvent.createBy!=null">
+                    and create_by = #{dbEvent.createBy}
+                </if>
+                <if test="dbEvent.creationDate!=null">
+                    and creation_date = #{dbEvent.creationDate}
+                </if>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getPageList" resultMap="DbEventResult">
+        select * from (select row_.*, rownum rownum_ from (
+        select
+        <include refid="columnsSql"/>
+        from DB_EVENT
+        <include refid="whereSql"/>
+        <![CDATA[
+      	)  row_ where rownum <= #{limit} + #{start}) where rownum_ > #{start}
+		]]>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from DB_EVENT
+        <include refid="whereSql"/>
+    </select>
+
+    <select id="query" resultMap="DbEventResult">
+        select
+        <include refid="columnsSql"/>
+        from DB_EVENT
+        <include refid="whereSql"/>
+    </select>
+
+    <select id="load" resultMap="DbEventResult">
+        select
+        <include refid="columnsSql"/>
+        from DB_EVENT
+        where id=#{id}
+    </select>
+
+    <update id="update">
+        update DB_EVENT
+        <set>
+            <if test="dbEvent.eventId != null">event_id=#{dbEvent.eventId},</if>
+            <if test="dbEvent.eventType != null">event_type=#{dbEvent.eventType},</if>
+            <if test="dbEvent.dbMonitorGroupId != null">db_monitor_group_id=#{dbEvent.dbMonitorGroupId},</if>
+            <if test="dbEvent.dbInfoId != null">db_info_Id=#{dbEvent.dbInfoId},</if>
+            <if test="dbEvent.dbMonitorId != null">db_monitor_Id=#{dbEvent.dbMonitorId},</if>
+            <if test="dbEvent.ip != null">ip=#{dbEvent.ip},</if>
+            <if test="dbEvent.port != null">port=#{dbEvent.port},</if>
+            <if test="dbEvent.dbType != null">db_type=#{dbEvent.dbType},</if>
+            <if test="dbEvent.createBy != null">create_by=#{dbEvent.createBy},</if>
+            <if test="dbEvent.creationDate != null">creation_date=#{dbEvent.creationDate}</if>
+        </set>
+        where id=#{dbEvent.id}
+    </update>
+
+    <insert id="insert" keyProperty="dbEvent.id">
+        insert into DB_EVENT(
+        id
+        <if test="dbEvent.eventId!=null">
+            ,event_id
+        </if>
+        <if test="dbEvent.eventType!=null">
+            ,event_type
+        </if>
+        <if test="dbEvent.dbMonitorGroupId!=null">
+            ,db_monitor_group_id
+        </if>
+        <if test="dbEvent.dbInfoId!=null">
+            ,db_info_Id
+        </if>
+        <if test="dbEvent.dbMonitorId!=null">
+            ,db_monitor_Id
+        </if>
+        <if test="dbEvent.ip!=null">
+            ,ip
+        </if>
+        <if test="dbEvent.port!=null">
+            ,port
+        </if>
+        <if test="dbEvent.dbType!=null">
+            ,db_type
+        </if>
+        <if test="dbEvent.createBy!=null">
+            ,create_by
+        </if>
+        <if test="dbEvent.creationDate!=null">
+            ,creation_date
+        </if>
+        ) values(
+        #{dbEvent.id}
+        <if test="dbEvent.eventId!=null">
+            ,#{dbEvent.eventId}
+        </if>
+        <if test="dbEvent.eventType!=null">
+            ,#{dbEvent.eventType}
+        </if>
+        <if test="dbEvent.dbMonitorGroupId!=null">
+            ,#{dbEvent.dbMonitorGroupId}
+        </if>
+        <if test="dbEvent.dbInfoId!=null">
+            ,#{dbEvent.dbInfoId}
+        </if>
+        <if test="dbEvent.dbMonitorId!=null">
+            ,#{dbEvent.dbMonitorId}
+        </if>
+        <if test="dbEvent.ip!=null">
+            ,#{dbEvent.ip}
+        </if>
+        <if test="dbEvent.port!=null">
+            ,#{dbEvent.port}
+        </if>
+        <if test="dbEvent.dbType!=null">
+            ,#{dbEvent.dbType}
+        </if>
+        <if test="dbEvent.createBy!=null">
+            ,#{dbEvent.createBy}
+        </if>
+        <if test="dbEvent.creationDate!=null">
+            ,#{dbEvent.creationDate}
+        </if>
+        )
+    </insert>
+
+    <delete id="delete">
+        delete from DB_EVENT
+        where id=#{id}
+    </delete>
+
+</mapper>

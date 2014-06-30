@@ -8,8 +8,105 @@ public final class NodeProtocol {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  /**
+   * Protobuf enum {@code protobuf.socketrpc.Rrtype}
+   */
+  public enum Rrtype
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>REQ_FILE_PROGATE = 0;</code>
+     */
+    REQ_FILE_PROGATE(0, 0),
+    ;
+
+    /**
+     * <code>REQ_FILE_PROGATE = 0;</code>
+     */
+    public static final int REQ_FILE_PROGATE_VALUE = 0;
+
+
+    public final int getNumber() { return value; }
+
+    public static Rrtype valueOf(int value) {
+      switch (value) {
+        case 0: return REQ_FILE_PROGATE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<Rrtype>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<Rrtype>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<Rrtype>() {
+            public Rrtype findValueByNumber(int number) {
+              return Rrtype.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.wangyin.cds.server.protocol.NodeProtocol.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final Rrtype[] VALUES = values();
+
+    public static Rrtype valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private Rrtype(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:protobuf.socketrpc.Rrtype)
+  }
+
   public interface NRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
+
+    // required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];
+    /**
+     * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+     */
+    boolean hasType();
+    /**
+     * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+     */
+    com.wangyin.cds.server.protocol.NodeProtocol.Rrtype getType();
+
+    // optional .protobuf.socketrpc.NFile file = 2;
+    /**
+     * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+     */
+    boolean hasFile();
+    /**
+     * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+     */
+    com.wangyin.cds.server.protocol.NodeProtocol.NFile getFile();
+    /**
+     * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+     */
+    com.wangyin.cds.server.protocol.NodeProtocol.NFileOrBuilder getFileOrBuilder();
   }
   /**
    * Protobuf type {@code protobuf.socketrpc.NRequest}
@@ -44,6 +141,7 @@ public final class NodeProtocol {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -59,6 +157,30 @@ public final class NodeProtocol {
                                      extensionRegistry, tag)) {
                 done = true;
               }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.wangyin.cds.server.protocol.NodeProtocol.Rrtype value = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                type_ = value;
+              }
+              break;
+            }
+            case 18: {
+              com.wangyin.cds.server.protocol.NodeProtocol.NFile.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = file_.toBuilder();
+              }
+              file_ = input.readMessage(com.wangyin.cds.server.protocol.NodeProtocol.NFile.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(file_);
+                file_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
               break;
             }
           }
@@ -78,8 +200,7 @@ public final class NodeProtocol {
       return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_descriptor;
     }
 
-    @Override
-	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -101,32 +222,94 @@ public final class NodeProtocol {
       return PARSER;
     }
 
+    private int bitField0_;
+    // required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private com.wangyin.cds.server.protocol.NodeProtocol.Rrtype type_;
+    /**
+     * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+     */
+    public com.wangyin.cds.server.protocol.NodeProtocol.Rrtype getType() {
+      return type_;
+    }
+
+    // optional .protobuf.socketrpc.NFile file = 2;
+    public static final int FILE_FIELD_NUMBER = 2;
+    private com.wangyin.cds.server.protocol.NodeProtocol.NFile file_;
+    /**
+     * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+     */
+    public boolean hasFile() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+     */
+    public com.wangyin.cds.server.protocol.NodeProtocol.NFile getFile() {
+      return file_;
+    }
+    /**
+     * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+     */
+    public com.wangyin.cds.server.protocol.NodeProtocol.NFileOrBuilder getFileOrBuilder() {
+      return file_;
+    }
+
     private void initFields() {
+      type_ = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.REQ_FILE_PROGATE;
+      file_ = com.wangyin.cds.server.protocol.NodeProtocol.NFile.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
-    @Override
-	public final boolean isInitialized() {
+    public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (hasFile()) {
+        if (!getFile().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
 
-    @Override
-	public void writeTo(com.google.protobuf.CodedOutputStream output)
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, type_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, file_);
+      }
       getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
-    @Override
-	public int getSerializedSize() {
+    public int getSerializedSize() {
       int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, type_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, file_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -216,8 +399,7 @@ public final class NodeProtocol {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_descriptor;
       }
 
-      @Override
-	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -236,25 +418,31 @@ public final class NodeProtocol {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFileFieldBuilder();
         }
       }
       private static Builder create() {
         return new Builder();
       }
 
-      @Override
-	public Builder clear() {
+      public Builder clear() {
         super.clear();
+        type_ = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.REQ_FILE_PROGATE;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (fileBuilder_ == null) {
+          file_ = com.wangyin.cds.server.protocol.NodeProtocol.NFile.getDefaultInstance();
+        } else {
+          fileBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
-      @Override
-	public Builder clone() {
+      public Builder clone() {
         return create().mergeFrom(buildPartial());
       }
 
-      @Override
-	public com.google.protobuf.Descriptors.Descriptor
+      public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NRequest_descriptor;
       }
@@ -273,12 +461,26 @@ public final class NodeProtocol {
 
       public com.wangyin.cds.server.protocol.NodeProtocol.NRequest buildPartial() {
         com.wangyin.cds.server.protocol.NodeProtocol.NRequest result = new com.wangyin.cds.server.protocol.NodeProtocol.NRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (fileBuilder_ == null) {
+          result.file_ = file_;
+        } else {
+          result.file_ = fileBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @Override
-	public Builder mergeFrom(com.google.protobuf.Message other) {
+      public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.wangyin.cds.server.protocol.NodeProtocol.NRequest) {
           return mergeFrom((com.wangyin.cds.server.protocol.NodeProtocol.NRequest)other);
         } else {
@@ -289,17 +491,31 @@ public final class NodeProtocol {
 
       public Builder mergeFrom(com.wangyin.cds.server.protocol.NodeProtocol.NRequest other) {
         if (other == com.wangyin.cds.server.protocol.NodeProtocol.NRequest.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (other.hasFile()) {
+          mergeFile(other.getFile());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @Override
-	public final boolean isInitialized() {
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
+        if (hasFile()) {
+          if (!getFile().isInitialized()) {
+            
+            return false;
+          }
+        }
         return true;
       }
 
-      @Override
-	public Builder mergeFrom(
+      public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -316,6 +532,160 @@ public final class NodeProtocol {
         }
         return this;
       }
+      private int bitField0_;
+
+      // required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];
+      private com.wangyin.cds.server.protocol.NodeProtocol.Rrtype type_ = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.REQ_FILE_PROGATE;
+      /**
+       * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+       */
+      public com.wangyin.cds.server.protocol.NodeProtocol.Rrtype getType() {
+        return type_;
+      }
+      /**
+       * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+       */
+      public Builder setType(com.wangyin.cds.server.protocol.NodeProtocol.Rrtype value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.REQ_FILE_PROGATE;
+        onChanged();
+        return this;
+      }
+
+      // optional .protobuf.socketrpc.NFile file = 2;
+      private com.wangyin.cds.server.protocol.NodeProtocol.NFile file_ = com.wangyin.cds.server.protocol.NodeProtocol.NFile.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.wangyin.cds.server.protocol.NodeProtocol.NFile, com.wangyin.cds.server.protocol.NodeProtocol.NFile.Builder, com.wangyin.cds.server.protocol.NodeProtocol.NFileOrBuilder> fileBuilder_;
+      /**
+       * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+       */
+      public boolean hasFile() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+       */
+      public com.wangyin.cds.server.protocol.NodeProtocol.NFile getFile() {
+        if (fileBuilder_ == null) {
+          return file_;
+        } else {
+          return fileBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+       */
+      public Builder setFile(com.wangyin.cds.server.protocol.NodeProtocol.NFile value) {
+        if (fileBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          file_ = value;
+          onChanged();
+        } else {
+          fileBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+       */
+      public Builder setFile(
+          com.wangyin.cds.server.protocol.NodeProtocol.NFile.Builder builderForValue) {
+        if (fileBuilder_ == null) {
+          file_ = builderForValue.build();
+          onChanged();
+        } else {
+          fileBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+       */
+      public Builder mergeFile(com.wangyin.cds.server.protocol.NodeProtocol.NFile value) {
+        if (fileBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              file_ != com.wangyin.cds.server.protocol.NodeProtocol.NFile.getDefaultInstance()) {
+            file_ =
+              com.wangyin.cds.server.protocol.NodeProtocol.NFile.newBuilder(file_).mergeFrom(value).buildPartial();
+          } else {
+            file_ = value;
+          }
+          onChanged();
+        } else {
+          fileBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+       */
+      public Builder clearFile() {
+        if (fileBuilder_ == null) {
+          file_ = com.wangyin.cds.server.protocol.NodeProtocol.NFile.getDefaultInstance();
+          onChanged();
+        } else {
+          fileBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+       */
+      public com.wangyin.cds.server.protocol.NodeProtocol.NFile.Builder getFileBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getFileFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+       */
+      public com.wangyin.cds.server.protocol.NodeProtocol.NFileOrBuilder getFileOrBuilder() {
+        if (fileBuilder_ != null) {
+          return fileBuilder_.getMessageOrBuilder();
+        } else {
+          return file_;
+        }
+      }
+      /**
+       * <code>optional .protobuf.socketrpc.NFile file = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.wangyin.cds.server.protocol.NodeProtocol.NFile, com.wangyin.cds.server.protocol.NodeProtocol.NFile.Builder, com.wangyin.cds.server.protocol.NodeProtocol.NFileOrBuilder> 
+          getFileFieldBuilder() {
+        if (fileBuilder_ == null) {
+          fileBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.wangyin.cds.server.protocol.NodeProtocol.NFile, com.wangyin.cds.server.protocol.NodeProtocol.NFile.Builder, com.wangyin.cds.server.protocol.NodeProtocol.NFileOrBuilder>(
+                  file_,
+                  getParentForChildren(),
+                  isClean());
+          file_ = null;
+        }
+        return fileBuilder_;
+      }
 
       // @@protoc_insertion_point(builder_scope:protobuf.socketrpc.NRequest)
     }
@@ -328,8 +698,599 @@ public final class NodeProtocol {
     // @@protoc_insertion_point(class_scope:protobuf.socketrpc.NRequest)
   }
 
+  public interface NFileOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string path = 1;
+    /**
+     * <code>required string path = 1;</code>
+     */
+    boolean hasPath();
+    /**
+     * <code>required string path = 1;</code>
+     */
+    java.lang.String getPath();
+    /**
+     * <code>required string path = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getPathBytes();
+
+    // required bytes content = 2;
+    /**
+     * <code>required bytes content = 2;</code>
+     */
+    boolean hasContent();
+    /**
+     * <code>required bytes content = 2;</code>
+     */
+    com.google.protobuf.ByteString getContent();
+  }
+  /**
+   * Protobuf type {@code protobuf.socketrpc.NFile}
+   */
+  public static final class NFile extends
+      com.google.protobuf.GeneratedMessage
+      implements NFileOrBuilder {
+    // Use NFile.newBuilder() to construct.
+    private NFile(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private NFile(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final NFile defaultInstance;
+    public static NFile getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public NFile getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NFile(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              path_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              content_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NFile_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NFile_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.wangyin.cds.server.protocol.NodeProtocol.NFile.class, com.wangyin.cds.server.protocol.NodeProtocol.NFile.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<NFile> PARSER =
+        new com.google.protobuf.AbstractParser<NFile>() {
+      public NFile parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NFile(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NFile> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string path = 1;
+    public static final int PATH_FIELD_NUMBER = 1;
+    private java.lang.Object path_;
+    /**
+     * <code>required string path = 1;</code>
+     */
+    public boolean hasPath() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string path = 1;</code>
+     */
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          path_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string path = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPathBytes() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        path_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required bytes content = 2;
+    public static final int CONTENT_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString content_;
+    /**
+     * <code>required bytes content = 2;</code>
+     */
+    public boolean hasContent() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bytes content = 2;</code>
+     */
+    public com.google.protobuf.ByteString getContent() {
+      return content_;
+    }
+
+    private void initFields() {
+      path_ = "";
+      content_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasPath()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasContent()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getPathBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, content_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getPathBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, content_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.wangyin.cds.server.protocol.NodeProtocol.NFile parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.wangyin.cds.server.protocol.NodeProtocol.NFile prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code protobuf.socketrpc.NFile}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.wangyin.cds.server.protocol.NodeProtocol.NFileOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NFile_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NFile_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.wangyin.cds.server.protocol.NodeProtocol.NFile.class, com.wangyin.cds.server.protocol.NodeProtocol.NFile.Builder.class);
+      }
+
+      // Construct using com.wangyin.cds.server.protocol.NodeProtocol.NFile.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        path_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        content_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NFile_descriptor;
+      }
+
+      public com.wangyin.cds.server.protocol.NodeProtocol.NFile getDefaultInstanceForType() {
+        return com.wangyin.cds.server.protocol.NodeProtocol.NFile.getDefaultInstance();
+      }
+
+      public com.wangyin.cds.server.protocol.NodeProtocol.NFile build() {
+        com.wangyin.cds.server.protocol.NodeProtocol.NFile result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.wangyin.cds.server.protocol.NodeProtocol.NFile buildPartial() {
+        com.wangyin.cds.server.protocol.NodeProtocol.NFile result = new com.wangyin.cds.server.protocol.NodeProtocol.NFile(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.path_ = path_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.content_ = content_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.wangyin.cds.server.protocol.NodeProtocol.NFile) {
+          return mergeFrom((com.wangyin.cds.server.protocol.NodeProtocol.NFile)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.wangyin.cds.server.protocol.NodeProtocol.NFile other) {
+        if (other == com.wangyin.cds.server.protocol.NodeProtocol.NFile.getDefaultInstance()) return this;
+        if (other.hasPath()) {
+          bitField0_ |= 0x00000001;
+          path_ = other.path_;
+          onChanged();
+        }
+        if (other.hasContent()) {
+          setContent(other.getContent());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasPath()) {
+          
+          return false;
+        }
+        if (!hasContent()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.wangyin.cds.server.protocol.NodeProtocol.NFile parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.wangyin.cds.server.protocol.NodeProtocol.NFile) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string path = 1;
+      private java.lang.Object path_ = "";
+      /**
+       * <code>required string path = 1;</code>
+       */
+      public boolean hasPath() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string path = 1;</code>
+       */
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          path_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string path = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes() {
+        java.lang.Object ref = path_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          path_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string path = 1;</code>
+       */
+      public Builder setPath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        path_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string path = 1;</code>
+       */
+      public Builder clearPath() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        path_ = getDefaultInstance().getPath();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string path = 1;</code>
+       */
+      public Builder setPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        path_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required bytes content = 2;
+      private com.google.protobuf.ByteString content_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes content = 2;</code>
+       */
+      public boolean hasContent() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bytes content = 2;</code>
+       */
+      public com.google.protobuf.ByteString getContent() {
+        return content_;
+      }
+      /**
+       * <code>required bytes content = 2;</code>
+       */
+      public Builder setContent(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        content_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes content = 2;</code>
+       */
+      public Builder clearContent() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        content_ = getDefaultInstance().getContent();
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:protobuf.socketrpc.NFile)
+    }
+
+    static {
+      defaultInstance = new NFile(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:protobuf.socketrpc.NFile)
+  }
+
   public interface NResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
+
+    // required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];
+    /**
+     * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+     */
+    boolean hasType();
+    /**
+     * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+     */
+    com.wangyin.cds.server.protocol.NodeProtocol.Rrtype getType();
+
+    // optional int32 fileProgStatus = 2;
+    /**
+     * <code>optional int32 fileProgStatus = 2;</code>
+     */
+    boolean hasFileProgStatus();
+    /**
+     * <code>optional int32 fileProgStatus = 2;</code>
+     */
+    int getFileProgStatus();
   }
   /**
    * Protobuf type {@code protobuf.socketrpc.NResponse}
@@ -364,6 +1325,7 @@ public final class NodeProtocol {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -379,6 +1341,22 @@ public final class NodeProtocol {
                                      extensionRegistry, tag)) {
                 done = true;
               }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.wangyin.cds.server.protocol.NodeProtocol.Rrtype value = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                type_ = value;
+              }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              fileProgStatus_ = input.readInt32();
               break;
             }
           }
@@ -398,8 +1376,7 @@ public final class NodeProtocol {
       return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_descriptor;
     }
 
-    @Override
-	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -421,32 +1398,82 @@ public final class NodeProtocol {
       return PARSER;
     }
 
+    private int bitField0_;
+    // required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private com.wangyin.cds.server.protocol.NodeProtocol.Rrtype type_;
+    /**
+     * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+     */
+    public com.wangyin.cds.server.protocol.NodeProtocol.Rrtype getType() {
+      return type_;
+    }
+
+    // optional int32 fileProgStatus = 2;
+    public static final int FILEPROGSTATUS_FIELD_NUMBER = 2;
+    private int fileProgStatus_;
+    /**
+     * <code>optional int32 fileProgStatus = 2;</code>
+     */
+    public boolean hasFileProgStatus() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 fileProgStatus = 2;</code>
+     */
+    public int getFileProgStatus() {
+      return fileProgStatus_;
+    }
+
     private void initFields() {
+      type_ = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.REQ_FILE_PROGATE;
+      fileProgStatus_ = 0;
     }
     private byte memoizedIsInitialized = -1;
-    @Override
-	public final boolean isInitialized() {
+    public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
 
-    @Override
-	public void writeTo(com.google.protobuf.CodedOutputStream output)
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, type_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, fileProgStatus_);
+      }
       getUnknownFields().writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
-    @Override
-	public int getSerializedSize() {
+    public int getSerializedSize() {
       int size = memoizedSerializedSize;
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, type_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, fileProgStatus_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -536,8 +1563,7 @@ public final class NodeProtocol {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_descriptor;
       }
 
-      @Override
-	protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -562,19 +1588,20 @@ public final class NodeProtocol {
         return new Builder();
       }
 
-      @Override
-	public Builder clear() {
+      public Builder clear() {
         super.clear();
+        type_ = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.REQ_FILE_PROGATE;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fileProgStatus_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
-      @Override
-	public Builder clone() {
+      public Builder clone() {
         return create().mergeFrom(buildPartial());
       }
 
-      @Override
-	public com.google.protobuf.Descriptors.Descriptor
+      public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.wangyin.cds.server.protocol.NodeProtocol.internal_static_protobuf_socketrpc_NResponse_descriptor;
       }
@@ -593,12 +1620,22 @@ public final class NodeProtocol {
 
       public com.wangyin.cds.server.protocol.NodeProtocol.NResponse buildPartial() {
         com.wangyin.cds.server.protocol.NodeProtocol.NResponse result = new com.wangyin.cds.server.protocol.NodeProtocol.NResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.fileProgStatus_ = fileProgStatus_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      @Override
-	public Builder mergeFrom(com.google.protobuf.Message other) {
+      public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.wangyin.cds.server.protocol.NodeProtocol.NResponse) {
           return mergeFrom((com.wangyin.cds.server.protocol.NodeProtocol.NResponse)other);
         } else {
@@ -609,17 +1646,25 @@ public final class NodeProtocol {
 
       public Builder mergeFrom(com.wangyin.cds.server.protocol.NodeProtocol.NResponse other) {
         if (other == com.wangyin.cds.server.protocol.NodeProtocol.NResponse.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (other.hasFileProgStatus()) {
+          setFileProgStatus(other.getFileProgStatus());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
-      @Override
-	public final boolean isInitialized() {
+      public final boolean isInitialized() {
+        if (!hasType()) {
+          
+          return false;
+        }
         return true;
       }
 
-      @Override
-	public Builder mergeFrom(
+      public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -634,6 +1679,76 @@ public final class NodeProtocol {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];
+      private com.wangyin.cds.server.protocol.NodeProtocol.Rrtype type_ = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.REQ_FILE_PROGATE;
+      /**
+       * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+       */
+      public com.wangyin.cds.server.protocol.NodeProtocol.Rrtype getType() {
+        return type_;
+      }
+      /**
+       * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+       */
+      public Builder setType(com.wangyin.cds.server.protocol.NodeProtocol.Rrtype value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .protobuf.socketrpc.Rrtype type = 1 [default = REQ_FILE_PROGATE];</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = com.wangyin.cds.server.protocol.NodeProtocol.Rrtype.REQ_FILE_PROGATE;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 fileProgStatus = 2;
+      private int fileProgStatus_ ;
+      /**
+       * <code>optional int32 fileProgStatus = 2;</code>
+       */
+      public boolean hasFileProgStatus() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 fileProgStatus = 2;</code>
+       */
+      public int getFileProgStatus() {
+        return fileProgStatus_;
+      }
+      /**
+       * <code>optional int32 fileProgStatus = 2;</code>
+       */
+      public Builder setFileProgStatus(int value) {
+        bitField0_ |= 0x00000002;
+        fileProgStatus_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 fileProgStatus = 2;</code>
+       */
+      public Builder clearFileProgStatus() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        fileProgStatus_ = 0;
+        onChanged();
         return this;
       }
 
@@ -654,6 +1769,11 @@ public final class NodeProtocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_protobuf_socketrpc_NRequest_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_protobuf_socketrpc_NFile_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_protobuf_socketrpc_NFile_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_protobuf_socketrpc_NResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -667,9 +1787,16 @@ public final class NodeProtocol {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nnode.proto\022\022protobuf.socketrpc\"\n\n\010NReq" +
-      "uest\"\013\n\tNResponseB/\n\037com.wangyin.cds.ser" +
-      "ver.protocolB\014NodeProtocol"
+      "\n\nnode.proto\022\022protobuf.socketrpc\"o\n\010NReq" +
+      "uest\022:\n\004type\030\001 \002(\0162\032.protobuf.socketrpc." +
+      "Rrtype:\020REQ_FILE_PROGATE\022\'\n\004file\030\002 \001(\0132\031" +
+      ".protobuf.socketrpc.NFile\"&\n\005NFile\022\014\n\004pa" +
+      "th\030\001 \002(\t\022\017\n\007content\030\002 \002(\014\"_\n\tNResponse\022:" +
+      "\n\004type\030\001 \002(\0162\032.protobuf.socketrpc.Rrtype" +
+      ":\020REQ_FILE_PROGATE\022\026\n\016fileProgStatus\030\002 \001" +
+      "(\005*\036\n\006Rrtype\022\024\n\020REQ_FILE_PROGATE\020\000B/\n\037co" +
+      "m.wangyin.cds.server.protocolB\014NodeProto" +
+      "col"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -681,13 +1808,19 @@ public final class NodeProtocol {
           internal_static_protobuf_socketrpc_NRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_protobuf_socketrpc_NRequest_descriptor,
-              new java.lang.String[] { });
-          internal_static_protobuf_socketrpc_NResponse_descriptor =
+              new java.lang.String[] { "Type", "File", });
+          internal_static_protobuf_socketrpc_NFile_descriptor =
             getDescriptor().getMessageTypes().get(1);
+          internal_static_protobuf_socketrpc_NFile_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_protobuf_socketrpc_NFile_descriptor,
+              new java.lang.String[] { "Path", "Content", });
+          internal_static_protobuf_socketrpc_NResponse_descriptor =
+            getDescriptor().getMessageTypes().get(2);
           internal_static_protobuf_socketrpc_NResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_protobuf_socketrpc_NResponse_descriptor,
-              new java.lang.String[] { });
+              new java.lang.String[] { "Type", "FileProgStatus", });
           return null;
         }
       };
