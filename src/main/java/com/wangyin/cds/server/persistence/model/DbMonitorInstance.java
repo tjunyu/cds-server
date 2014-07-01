@@ -13,85 +13,94 @@ public class DbMonitorInstance implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -7888947095277539194L;
-	private Integer id;
-	private Integer dbMinitorId;
-	private Date creationDate;
-	private String monitorItem;
-	private String status;
-	private Integer monitorValue;
-	private Integer integral;
-	private Integer errorNum;
-	private String alarmMsg;
+    private Integer id;
+    private Integer dbMinitorId;
+    private Date creationDate;
+    private String monitorItem;
+    private String status;
+    private Integer monitorValue;
+    private Integer integral;
+    private Integer errorNum;
+    private String alarmMsg;
+    private Integer dbInfoId;
 
-	public Integer getId() {
- 		return this.id;
-	}
-	
-	public void setId(Integer id) {
- 		this.id = id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public Integer getDbMinitorId() {
- 		return this.dbMinitorId;
-	}
-	
-	public void setDbMinitorId(Integer dbMinitorId) {
- 		this.dbMinitorId = dbMinitorId;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Date getCreationDate() {
- 		return this.creationDate;
-	}
-	
-	public void setCreationDate(Date creationDate) {
- 		this.creationDate = creationDate;
-	}
+    public Integer getDbMinitorId() {
+        return this.dbMinitorId;
+    }
 
-	public String getMonitorItem() {
- 		return this.monitorItem;
-	}
-	
-	public void setMonitorItem(String monitorItem) {
- 		this.monitorItem = monitorItem;
-	}
+    public void setDbMinitorId(Integer dbMinitorId) {
+        this.dbMinitorId = dbMinitorId;
+    }
 
-	public String getStatus() {
- 		return this.status;
-	}
-	
-	public void setStatus(String status) {
- 		this.status = status;
-	}
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
 
-	public Integer getMonitorValue() {
- 		return this.monitorValue;
-	}
-	
-	public void setMonitorValue(Integer monitorValue) {
- 		this.monitorValue = monitorValue;
-	}
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
-	public Integer getIntegral() {
- 		return this.integral;
-	}
-	
-	public void setIntegral(Integer integral) {
- 		this.integral = integral;
-	}
+    public String getMonitorItem() {
+        return this.monitorItem;
+    }
 
-	public Integer getErrorNum() {
- 		return this.errorNum;
-	}
-	
-	public void setErrorNum(Integer errorNum) {
- 		this.errorNum = errorNum;
-	}
+    public void setMonitorItem(String monitorItem) {
+        this.monitorItem = monitorItem;
+    }
 
-	public String getAlarmMsg() {
- 		return this.alarmMsg;
-	}
-	
-	public void setAlarmMsg(String alarmMsg) {
- 		this.alarmMsg = alarmMsg;
-	}
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getMonitorValue() {
+        return this.monitorValue;
+    }
+
+    public void setMonitorValue(Integer monitorValue) {
+        this.monitorValue = monitorValue;
+    }
+
+    public Integer getIntegral() {
+        return this.integral;
+    }
+
+    public void setIntegral(Integer integral) {
+        this.integral = integral;
+    }
+
+    public Integer getErrorNum() {
+        return this.errorNum;
+    }
+
+    public void setErrorNum(Integer errorNum) {
+        this.errorNum = errorNum;
+    }
+
+    public String getAlarmMsg() {
+        return this.alarmMsg;
+    }
+
+    public void setAlarmMsg(String alarmMsg) {
+        this.alarmMsg = alarmMsg;
+    }
+
+    public Integer getDbInfoId() {
+        return this.dbInfoId;
+    }
+
+    public void setDbInfoId(Integer dbInfoId) {
+        this.dbInfoId = dbInfoId;
+    }
 }

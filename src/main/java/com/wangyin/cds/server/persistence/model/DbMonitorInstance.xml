@@ -1,169 +1,181 @@
-<?xml version="1.0" encoding="UTF-8" ?>    
-<!DOCTYPE mapper    
-PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
-"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="com.wangyin.cds.server.persistence.DbMonitorInstanceDAO">
 
-	<resultMap type="com.wangyin.cds.server.persistence.model.DbMonitorInstance" id="DbMonitorInstanceResult">  
-		<id column="id" property="id"/>
-		<result column="db_minitor_Id" property="dbMinitorId"/>
-		<result column="creation_date" property="creationDate"/>
-		<result column="monitor_item" property="monitorItem"/>
-		<result column="status" property="status"/>
-		<result column="monitor_value" property="monitorValue"/>
-		<result column="integral" property="integral"/>
-		<result column="error_num" property="errorNum"/>
-		<result column="alarm_msg" property="alarmMsg"/>
+    <resultMap type="com.wangyin.cds.server.persistence.model.DbMonitorInstance" id="DbMonitorInstanceResult">
+        <id column="id" property="id"/>
+        <result column="db_minitor_Id" property="dbMinitorId"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="monitor_item" property="monitorItem"/>
+        <result column="status" property="status"/>
+        <result column="monitor_value" property="monitorValue"/>
+        <result column="integral" property="integral"/>
+        <result column="error_num" property="errorNum"/>
+        <result column="alarm_msg" property="alarmMsg"/>
+        <result column="db_info_Id" property="dbInfoId"/>
     </resultMap>
-	
-	<sql id="columnsSql">
-		id,
-		db_minitor_Id,
-		creation_date,
-		monitor_item,
-		status,
-		monitor_value,
-		integral,
-		error_num,
-		alarm_msg
-	</sql>
-	
-	<sql id="whereSql">
-		<where>
-			<if test="dbMonitorInstance !=null">
-				<if test="dbMonitorInstance.dbMinitorId!=null">
-					and db_minitor_Id = #{dbMonitorInstance.dbMinitorId}
-				</if>
-				<if test="dbMonitorInstance.creationDate!=null">
-					and creation_date = #{dbMonitorInstance.creationDate}
-				</if>
-				<if test="dbMonitorInstance.monitorItem!=null">
-					and monitor_item = #{dbMonitorInstance.monitorItem}
-				</if>
-				<if test="dbMonitorInstance.status!=null">
-					and status = #{dbMonitorInstance.status}
-				</if>
-				<if test="dbMonitorInstance.monitorValue!=null">
-					and monitor_value = #{dbMonitorInstance.monitorValue}
-				</if>
-				<if test="dbMonitorInstance.integral!=null">
-					and integral = #{dbMonitorInstance.integral}
-				</if>
-				<if test="dbMonitorInstance.errorNum!=null">
-					and error_num = #{dbMonitorInstance.errorNum}
-				</if>
-				<if test="dbMonitorInstance.alarmMsg!=null">
-					and alarm_msg = #{dbMonitorInstance.alarmMsg}
-				</if>
-			</if>
-		</where>
-	</sql>
-	
-	<select id="getPageList" resultMap="DbMonitorInstanceResult">
-		select * from (select row_.*, rownum rownum_ from (
-			select 
-			<include refid="columnsSql"/>
-			from DB_MONITOR_INSTANCE
-			<include refid="whereSql"/>
-		<![CDATA[
-      	)  row_ where rownum <= #{limit} + #{start}) where rownum_ > #{start} 
+
+    <sql id="columnsSql">
+        id,
+        db_minitor_Id,
+        creation_date,
+        monitor_item,
+        status,
+        monitor_value,
+        integral,
+        error_num,
+        alarm_msg,
+        db_info_Id
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="dbMonitorInstance !=null">
+                <if test="dbMonitorInstance.dbMinitorId!=null">
+                    and db_minitor_Id = #{dbMonitorInstance.dbMinitorId}
+                </if>
+                <if test="dbMonitorInstance.creationDate!=null">
+                    and creation_date = #{dbMonitorInstance.creationDate}
+                </if>
+                <if test="dbMonitorInstance.monitorItem!=null">
+                    and monitor_item = #{dbMonitorInstance.monitorItem}
+                </if>
+                <if test="dbMonitorInstance.status!=null">
+                    and status = #{dbMonitorInstance.status}
+                </if>
+                <if test="dbMonitorInstance.monitorValue!=null">
+                    and monitor_value = #{dbMonitorInstance.monitorValue}
+                </if>
+                <if test="dbMonitorInstance.integral!=null">
+                    and integral = #{dbMonitorInstance.integral}
+                </if>
+                <if test="dbMonitorInstance.errorNum!=null">
+                    and error_num = #{dbMonitorInstance.errorNum}
+                </if>
+                <if test="dbMonitorInstance.alarmMsg!=null">
+                    and alarm_msg = #{dbMonitorInstance.alarmMsg}
+                </if>
+                <if test="dbMonitorInstance.dbInfoId!=null">
+                    and db_info_Id = #{dbMonitorInstance.dbInfoId}
+                </if>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getPageList" resultMap="DbMonitorInstanceResult">
+        select * from (select row_.*, rownum rownum_ from (
+        select
+        <include refid="columnsSql"/>
+        from DB_MONITOR_INSTANCE
+        <include refid="whereSql"/>
+        <![CDATA[
+      	)  row_ where rownum <= #{limit} + #{start}) where rownum_ > #{start}
 		]]>
-	</select>
-	
-	<select id="count" resultType="java.lang.Integer">
-		select count(*) from DB_MONITOR_INSTANCE
-		<include refid="whereSql"/>
-	</select>
-	
-	<select id="query" resultMap="DbMonitorInstanceResult">
-		select 
-		<include refid="columnsSql"/>
-		from DB_MONITOR_INSTANCE
-		<include refid="whereSql"/>
-	</select>
+    </select>
 
-	<select id="load" resultMap="DbMonitorInstanceResult">
-		select 
-		<include refid="columnsSql"/>
-		from DB_MONITOR_INSTANCE
-		where id=#{id}
-	</select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from DB_MONITOR_INSTANCE
+        <include refid="whereSql"/>
+    </select>
 
-	<update id="update">
-		update DB_MONITOR_INSTANCE
-		<set>
-			<if test="dbMonitorInstance.dbMinitorId != null">db_minitor_Id=#{dbMonitorInstance.dbMinitorId},</if>
-			<if test="dbMonitorInstance.creationDate != null">creation_date=#{dbMonitorInstance.creationDate},</if>
-			<if test="dbMonitorInstance.monitorItem != null">monitor_item=#{dbMonitorInstance.monitorItem},</if>
-			<if test="dbMonitorInstance.status != null">status=#{dbMonitorInstance.status},</if>
-			<if test="dbMonitorInstance.monitorValue != null">monitor_value=#{dbMonitorInstance.monitorValue},</if>
-			<if test="dbMonitorInstance.integral != null">integral=#{dbMonitorInstance.integral},</if>
-			<if test="dbMonitorInstance.errorNum != null">error_num=#{dbMonitorInstance.errorNum},</if>
-			<if test="dbMonitorInstance.alarmMsg != null">alarm_msg=#{dbMonitorInstance.alarmMsg}</if>
-		</set>
-		where id=#{dbMonitorInstance.id}
-	</update>
+    <select id="query" resultMap="DbMonitorInstanceResult">
+        select
+        <include refid="columnsSql"/>
+        from DB_MONITOR_INSTANCE
+        <include refid="whereSql"/>
+    </select>
 
-	<insert id="insert" keyProperty="dbMonitorInstance.id">
-		insert into DB_MONITOR_INSTANCE(
-			id
-			<if test="dbMonitorInstance.dbMinitorId!=null">
-				,db_minitor_Id
-			</if>
-			<if test="dbMonitorInstance.creationDate!=null">
-				,creation_date
-			</if>
-			<if test="dbMonitorInstance.monitorItem!=null">
-				,monitor_item
-			</if>
-			<if test="dbMonitorInstance.status!=null">
-				,status
-			</if>
-			<if test="dbMonitorInstance.monitorValue!=null">
-				,monitor_value
-			</if>
-			<if test="dbMonitorInstance.integral!=null">
-				,integral
-			</if>
-			<if test="dbMonitorInstance.errorNum!=null">
-				,error_num
-			</if>
-			<if test="dbMonitorInstance.alarmMsg!=null">
-				,alarm_msg
-			</if>
-		) values(
-			 #{dbMonitorInstance.id}
-			<if test="dbMonitorInstance.dbMinitorId!=null">
-				 ,#{dbMonitorInstance.dbMinitorId}
-			</if>
-			<if test="dbMonitorInstance.creationDate!=null">
-				 ,#{dbMonitorInstance.creationDate}
-			</if>
-			<if test="dbMonitorInstance.monitorItem!=null">
-				 ,#{dbMonitorInstance.monitorItem}
-			</if>
-			<if test="dbMonitorInstance.status!=null">
-				 ,#{dbMonitorInstance.status}
-			</if>
-			<if test="dbMonitorInstance.monitorValue!=null">
-				 ,#{dbMonitorInstance.monitorValue}
-			</if>
-			<if test="dbMonitorInstance.integral!=null">
-				 ,#{dbMonitorInstance.integral}
-			</if>
-			<if test="dbMonitorInstance.errorNum!=null">
-				 ,#{dbMonitorInstance.errorNum}
-			</if>
-			<if test="dbMonitorInstance.alarmMsg!=null">
-				 ,#{dbMonitorInstance.alarmMsg}
-			</if>
-		)
-	</insert>
+    <select id="load" resultMap="DbMonitorInstanceResult">
+        select
+        <include refid="columnsSql"/>
+        from DB_MONITOR_INSTANCE
+        where id=#{id}
+    </select>
 
-	<delete id="delete">
-		delete from DB_MONITOR_INSTANCE
-		where id=#{id}
-	</delete>
+    <update id="update">
+        update DB_MONITOR_INSTANCE
+        <set>
+            <if test="dbMonitorInstance.dbMinitorId != null">db_minitor_Id=#{dbMonitorInstance.dbMinitorId},</if>
+            <if test="dbMonitorInstance.creationDate != null">creation_date=#{dbMonitorInstance.creationDate},</if>
+            <if test="dbMonitorInstance.monitorItem != null">monitor_item=#{dbMonitorInstance.monitorItem},</if>
+            <if test="dbMonitorInstance.status != null">status=#{dbMonitorInstance.status},</if>
+            <if test="dbMonitorInstance.monitorValue != null">monitor_value=#{dbMonitorInstance.monitorValue},</if>
+            <if test="dbMonitorInstance.integral != null">integral=#{dbMonitorInstance.integral},</if>
+            <if test="dbMonitorInstance.errorNum != null">error_num=#{dbMonitorInstance.errorNum},</if>
+            <if test="dbMonitorInstance.alarmMsg != null">alarm_msg=#{dbMonitorInstance.alarmMsg},</if>
+            <if test="dbMonitorInstance.dbInfoId != null">db_info_Id=#{dbMonitorInstance.dbInfoId}</if>
+        </set>
+        where id=#{dbMonitorInstance.id}
+    </update>
 
-</mapper> 
+    <insert id="insert" keyProperty="dbMonitorInstance.id">
+        insert into DB_MONITOR_INSTANCE(
+        id
+        <if test="dbMonitorInstance.dbMinitorId!=null">
+            ,db_minitor_Id
+        </if>
+        <if test="dbMonitorInstance.creationDate!=null">
+            ,creation_date
+        </if>
+        <if test="dbMonitorInstance.monitorItem!=null">
+            ,monitor_item
+        </if>
+        <if test="dbMonitorInstance.status!=null">
+            ,status
+        </if>
+        <if test="dbMonitorInstance.monitorValue!=null">
+            ,monitor_value
+        </if>
+        <if test="dbMonitorInstance.integral!=null">
+            ,integral
+        </if>
+        <if test="dbMonitorInstance.errorNum!=null">
+            ,error_num
+        </if>
+        <if test="dbMonitorInstance.alarmMsg!=null">
+            ,alarm_msg
+        </if>
+        <if test="dbMonitorInstance.dbInfoId!=null">
+            ,db_info_Id
+        </if>
+        ) values(
+        #{dbMonitorInstance.id}
+        <if test="dbMonitorInstance.dbMinitorId!=null">
+            ,#{dbMonitorInstance.dbMinitorId}
+        </if>
+        <if test="dbMonitorInstance.creationDate!=null">
+            ,#{dbMonitorInstance.creationDate}
+        </if>
+        <if test="dbMonitorInstance.monitorItem!=null">
+            ,#{dbMonitorInstance.monitorItem}
+        </if>
+        <if test="dbMonitorInstance.status!=null">
+            ,#{dbMonitorInstance.status}
+        </if>
+        <if test="dbMonitorInstance.monitorValue!=null">
+            ,#{dbMonitorInstance.monitorValue}
+        </if>
+        <if test="dbMonitorInstance.integral!=null">
+            ,#{dbMonitorInstance.integral}
+        </if>
+        <if test="dbMonitorInstance.errorNum!=null">
+            ,#{dbMonitorInstance.errorNum}
+        </if>
+        <if test="dbMonitorInstance.alarmMsg!=null">
+            ,#{dbMonitorInstance.alarmMsg}
+        </if>
+        <if test="dbMonitorInstance.dbInfoId!=null">
+            ,#{dbMonitorInstance.dbInfoId}
+        </if>
+        )
+    </insert>
+
+    <delete id="delete">
+        delete from DB_MONITOR_INSTANCE
+        where id=#{id}
+    </delete>
+
+</mapper>

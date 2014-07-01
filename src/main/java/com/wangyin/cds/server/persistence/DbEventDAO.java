@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import com.wangyin.cds.server.persistence.model.DbEvent;
-
+/**
+ * @author wy
+ */
 public interface DbEventDAO {
 	
 	public List<DbEvent> getPageList(@Param("start") Integer start, @Param("limit") Integer limit);

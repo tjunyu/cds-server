@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.wangyin.cds.server.persistence.DbAlarmInstanceDAO">
+
+    <resultMap type="com.wangyin.cds.server.persistence.model.DbAlarmInstance" id="DbAlarmInstanceResult">
+        <id column="id" property="id"/>
+        <result column="db_alarm_id" property="dbAlarmId"/>
+        <result column="db_info_id" property="dbInfoId"/>
+        <result column="db_minitor_instance_id" property="dbMinitorInstanceId"/>
+        <result column="alarm_msg" property="alarmMsg"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="alarm_status" property="alarmStatus"/>
+    </resultMap>
+
+    <sql id="columnsSql">
+        id,
+        db_alarm_id,
+        db_info_id,
+        db_minitor_instance_id,
+        alarm_msg,
+        creation_date,
+        alarm_status
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            <if test="dbAlarmInstance !=null">
+                <if test="dbAlarmInstance.dbAlarmId!=null">
+                    and db_alarm_id = #{dbAlarmInstance.dbAlarmId}
+                </if>
+                <if test="dbAlarmInstance.dbInfoId!=null">
+                    and db_info_id = #{dbAlarmInstance.dbInfoId}
+                </if>
+                <if test="dbAlarmInstance.dbMinitorInstanceId!=null">
+                    and db_minitor_instance_id = #{dbAlarmInstance.dbMinitorInstanceId}
+                </if>
+                <if test="dbAlarmInstance.alarmMsg!=null">
+                    and alarm_msg = #{dbAlarmInstance.alarmMsg}
+                </if>
+                <if test="dbAlarmInstance.creationDate!=null">
+                    and creation_date = #{dbAlarmInstance.creationDate}
+                </if>
+                <if test="dbAlarmInstance.alarmStatus!=null">
+                    and alarm_status = #{dbAlarmInstance.alarmStatus}
+                </if>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getPageList" resultMap="DbAlarmInstanceResult">
+        select * from (select row_.*, rownum rownum_ from (
+        select
+        <include refid="columnsSql"/>
+        from DB_ALARM_INSTANCE
+        <include refid="whereSql"/>
+        <![CDATA[
+      	)  row_ where rownum <= #{limit} + #{start}) where rownum_ > #{start}
+		]]>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from DB_ALARM_INSTANCE
+        <include refid="whereSql"/>
+    </select>
+
+    <select id="query" resultMap="DbAlarmInstanceResult">
+        select
+        <include refid="columnsSql"/>
+        from DB_ALARM_INSTANCE
+        <include refid="whereSql"/>
+    </select>
+
+    <select id="load" resultMap="DbAlarmInstanceResult">
+        select
+        <include refid="columnsSql"/>
+        from DB_ALARM_INSTANCE
+        where id=#{id}
+    </select>
+
+    <update id="update">
+        update DB_ALARM_INSTANCE
+        <set>
+            <if test="dbAlarmInstance.dbAlarmId != null">db_alarm_id=#{dbAlarmInstance.dbAlarmId},</if>
+            <if test="dbAlarmInstance.dbInfoId != null">db_info_id=#{dbAlarmInstance.dbInfoId},</if>
+            <if test="dbAlarmInstance.dbMinitorInstanceId != null">db_minitor_instance_id=#{dbAlarmInstance.dbMinitorInstanceId},</if>
+            <if test="dbAlarmInstance.alarmMsg != null">alarm_msg=#{dbAlarmInstance.alarmMsg},</if>
+            <if test="dbAlarmInstance.creationDate != null">creation_date=#{dbAlarmInstance.creationDate},</if>
+            <if test="dbAlarmInstance.alarmStatus != null">alarm_status=#{dbAlarmInstance.alarmStatus}</if>
+        </set>
+        where id=#{dbAlarmInstance.id}
+    </update>
+
+    <insert id="insert" keyProperty="dbAlarmInstance.id">
+        insert into DB_ALARM_INSTANCE(
+        id
+        <if test="dbAlarmInstance.dbAlarmId!=null">
+            ,db_alarm_id
+        </if>
+        <if test="dbAlarmInstance.dbInfoId!=null">
+            ,db_info_id
+        </if>
+        <if test="dbAlarmInstance.dbMinitorInstanceId!=null">
+            ,db_minitor_instance_id
+        </if>
+        <if test="dbAlarmInstance.alarmMsg!=null">
+            ,alarm_msg
+        </if>
+        <if test="dbAlarmInstance.creationDate!=null">
+            ,creation_date
+        </if>
+        <if test="dbAlarmInstance.alarmStatus!=null">
+            ,alarm_status
+        </if>
+        ) values(
+        #{dbAlarmInstance.id}
+        <if test="dbAlarmInstance.dbAlarmId!=null">
+            ,#{dbAlarmInstance.dbAlarmId}
+        </if>
+        <if test="dbAlarmInstance.dbInfoId!=null">
+            ,#{dbAlarmInstance.dbInfoId}
+        </if>
+        <if test="dbAlarmInstance.dbMinitorInstanceId!=null">
+            ,#{dbAlarmInstance.dbMinitorInstanceId}
+        </if>
+        <if test="dbAlarmInstance.alarmMsg!=null">
+            ,#{dbAlarmInstance.alarmMsg}
+        </if>
+        <if test="dbAlarmInstance.creationDate!=null">
+            ,#{dbAlarmInstance.creationDate}
+        </if>
+        <if test="dbAlarmInstance.alarmStatus!=null">
+            ,#{dbAlarmInstance.alarmStatus}
+        </if>
+        )
+    </insert>
+
+    <delete id="delete">
+        delete from DB_ALARM_INSTANCE
+        where id=#{id}
+    </delete>
+
+</mapper>

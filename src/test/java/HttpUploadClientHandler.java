@@ -23,55 +23,59 @@ import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.util.CharsetUtil;
 
+import java.util.logging.Logger;
+
 /**
  * Handler that just dumps the contents of the response from the server
  */
 public class HttpUploadClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 
+    private static final Logger logger = Logger.getLogger(HttpUploadClientHandler.class.getName());
+
     private boolean readingChunks;
 
     @Override
-    public void channelRead0(ChannelHandlerContext ctx, HttpObject msg) {
+    public void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
         if (msg instanceof HttpResponse) {
             HttpResponse response = (HttpResponse) msg;
 
-            System.err.println("STATUS: " + response.getStatus());
-            System.err.println("VERSION: " + response.getProtocolVersion());
+            logger.info("STATUS: " + response.getStatus());
+            logger.info("VERSION: " + response.getProtocolVersion());
 
             if (!response.headers().isEmpty()) {
                 for (String name : response.headers().names()) {
                     for (String value : response.headers().getAll(name)) {
-                        System.err.println("HEADER: " + name + " = " + value);
+                        logger.info("HEADER: " + name + " = " + value);
                     }
                 }
             }
 
             if (response.getStatus().code() == 200 && HttpHeaders.isTransferEncodingChunked(response)) {
                 readingChunks = true;
-                System.err.println("CHUNKED CONTENT {");
+                logger.info("CHUNKED CONTENT {");
             } else {
-                System.err.println("CONTENT {");
+                logger.info("CONTENT {");
             }
         }
         if (msg instanceof HttpContent) {
             HttpContent chunk = (HttpContent) msg;
-            System.err.println(chunk.content().toString(CharsetUtil.UTF_8));
+            logger.info(chunk.content().toString(CharsetUtil.UTF_8));
 
             if (chunk instanceof LastHttpContent) {
                 if (readingChunks) {
-                    System.err.println("} END OF CHUNKED CONTENT");
+                    logger.info("} END OF CHUNKED CONTENT");
                 } else {
-                    System.err.println("} END OF CONTENT");
+                    logger.info("} END OF CONTENT");
                 }
                 readingChunks = false;
             } else {
-                System.err.println(chunk.content().toString(CharsetUtil.UTF_8));
+                logger.info(chunk.content().toString(CharsetUtil.UTF_8));
             }
         }
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
         ctx.channel().close();
     }

@@ -1,35 +1,23 @@
-/*
- * Copyright 2012 The Netty Project
- *
- * The Netty Project licenses this file to you under the Apache License,
- * version 2.0 (the "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at:
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations
- * under the License.
- */
+
 package com.wangyin.cds.server.container;
 
+import com.wangyin.cds.server.ServerNode;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.*;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder.EndOfDataDecoderException;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder.ErrorDataDecoderException;
+import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder.IncompatibleDataDecoderException;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import io.netty.util.CharsetUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +25,10 @@ import java.util.logging.Logger;
 import static io.netty.buffer.Unpooled.copiedBuffer;
 import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 
-public class FileUploadServerHandler extends SimpleChannelInboundHandler<HttpObject> {
+/**
+ * @author wy
+ */
+public class FileUploadServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     private static final Logger logger = Logger.getLogger(FileUploadServerHandler.class.getName());
 
@@ -47,82 +38,36 @@ public class FileUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
 
     private final StringBuilder responseContent = new StringBuilder();
 
-    private static final HttpDataFactory factory =
-            new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE); // Disk if size exceed
+    private static final HttpDataFactory factory = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE); //Disk
+    // if
+    // size
+    // exceed
 
     private HttpPostRequestDecoder decoder;
     static {
         DiskFileUpload.deleteOnExitTemporaryFile = true; // should delete file
-                                                         // on exit (in normal
-                                                         // exit)
+        // on exit (in normal
+        // exit)
         DiskFileUpload.baseDirectory = null; // system temp directory
         DiskAttribute.deleteOnExitTemporaryFile = true; // should delete file on
-                                                        // exit (in normal exit)
+        // exit (in normal exit)
         DiskAttribute.baseDirectory = null; // system temp directory
     }
 
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         if (decoder != null) {
             decoder.cleanFiles();
         }
     }
 
     @Override
-    public void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
-        if (msg instanceof HttpRequest) {
-            HttpRequest request = this.request = (HttpRequest) msg;
+    public void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
+            HttpRequest request = this.request =  msg;
             URI uri = new URI(request.getUri());
-//            if (!uri.getPath().startsWith("/form")) {
-//                // Write Menu
-//                writeMenu(ctx);
-//                return;
-//            }
-            responseContent.setLength(0);
-            responseContent.append("WELCOME TO THE WILD WILD WEB SERVER\r\n");
-            responseContent.append("===================================\r\n");
 
-            responseContent.append("VERSION: " + request.getProtocolVersion().text() + "\r\n");
-
-            responseContent.append("REQUEST_URI: " + request.getUri()+ "\r\n\r\n");
-            responseContent.append("\r\n\r\n");
-
-            // new getMethod
-            for (Entry<String, String> entry : request.headers()) {
-                responseContent.append("HEADER: " + entry.getKey() + '=' + entry.getValue() + "\r\n");
-            }
-            responseContent.append("\r\n\r\n");
-
-            // new getMethod
-            Set<Cookie> cookies;
-            String value = request.headers().get(COOKIE);
-            if (value == null) {
-                cookies = Collections.emptySet();
-            } else {
-                cookies = CookieDecoder.decode(value);
-            }
-            for (Cookie cookie : cookies) {
-                responseContent.append("COOKIE: " + cookie + "\r\n");
-            }
-            responseContent.append("\r\n\r\n");
-
-            QueryStringDecoder decoderQuery = new QueryStringDecoder(request.getUri());
-            Map<String, List<String>> uriAttributes = decoderQuery.parameters();
-            for (Entry<String, List<String>> attr: uriAttributes.entrySet()) {
-                for (String attrVal: attr.getValue()) {
-                    responseContent.append("URI: " + attr.getKey() + '=' + attrVal + "\r\n");
-                }
-            }
-            responseContent.append("\r\n\r\n");
 
             // if GET Method: should not try to create a HttpPostRequestDecoder
-            if (request.getMethod().equals(HttpMethod.GET)) {
-                // GET Method: should not try to create a HttpPostRequestDecoder
-                // So stop here
-                responseContent.append("\r\n\r\nEND OF GET CONTENT\r\n");
-                writeResponse(ctx.channel());
-                return;
-            }
             try {
                 decoder = new HttpPostRequestDecoder(factory, request);
             } catch (ErrorDataDecoderException e1) {
@@ -131,24 +76,31 @@ public class FileUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
                 writeResponse(ctx.channel());
                 ctx.channel().close();
                 return;
+            } catch (IncompatibleDataDecoderException e1) {
+                // GET Method: should not try to create a HttpPostRequestDecoder
+                // So OK but stop here
+                responseContent.append(e1.getMessage());
+                responseContent.append("\r\n\r\nEND OF GET CONTENT\r\n");
+                writeResponse(ctx.channel());
+                return;
             }
 
             readingChunks = HttpHeaders.isTransferEncodingChunked(request);
             responseContent.append("Is Chunked: " + readingChunks + "\r\n");
             responseContent.append("IsMultipart: " + decoder.isMultipart() + "\r\n");
-            if (readingChunks) {
+            if (readingChunks) {//文件切块
                 // Chunk version
                 responseContent.append("Chunks: ");
                 readingChunks = true;
             }
-        }
+
 
         // check if the decoder was constructed before
         // if not it handles the form get
         if (decoder != null) {
             if (msg instanceof HttpContent) {
                 // New chunk is received
-                HttpContent chunk = (HttpContent) msg;
+                HttpContent chunk = msg;
                 try {
                     decoder.offer(chunk);
                 } catch (ErrorDataDecoderException e1) {
@@ -186,26 +138,32 @@ public class FileUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
      */
     private void readHttpDataChunkByChunk() {
         try {
+            Map<String,Object> values = new HashMap<String,Object>();
             while (decoder.hasNext()) {
                 InterfaceHttpData data = decoder.next();
                 if (data != null) {
                     try {
                         // new value
-                        writeHttpData(data);
+                        writeHttpData(data,values);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     } finally {
                         data.release();
                     }
                 }
             }
+            //写文件
+            File file = new File(ServerNode.http_config.get("scriptRoot")+ File.separator  );
         } catch (EndOfDataDecoderException e1) {
             // end
             responseContent.append("\r\n\r\nEND OF CONTENT CHUNK BY CHUNK\r\n\r\n");
         }
     }
 
-    private void writeHttpData(InterfaceHttpData data) {
+    private void writeHttpData(InterfaceHttpData data,Map<String,Object> values) throws IOException {
         if (data.getHttpDataType() == HttpDataType.Attribute) {
             Attribute attribute = (Attribute) data;
+            values.put(attribute.getName(),attribute.getValue());
             String value;
             try {
                 value = attribute.getValue();
@@ -221,10 +179,10 @@ public class FileUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
                         + attribute.getName() + " data too long\r\n");
             } else {
                 responseContent.append("\r\nBODY Attribute: " + attribute.getHttpDataType().name() + ": "
-                        + attribute + "\r\n");
+                        + attribute.toString() + "\r\n");
             }
         } else {
-            responseContent.append("\r\nBODY FileUpload: " + data.getHttpDataType().name() + ": " + data
+            responseContent.append("\r\nBODY FileUpload: " + data.getHttpDataType().name() + ": " + data.toString()
                     + "\r\n");
             if (data.getHttpDataType() == HttpDataType.FileUpload) {
                 FileUpload fileUpload = (FileUpload) data;
@@ -232,6 +190,8 @@ public class FileUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
                     if (fileUpload.length() < 10000) {
                         responseContent.append("\tContent of file\r\n");
                         try {
+
+                            values.put(fileUpload.getName(),fileUpload);
                             responseContent.append(fileUpload.getString(fileUpload.getCharset()));
                         } catch (IOException e1) {
                             // do nothing for the example
@@ -260,9 +220,9 @@ public class FileUploadServerHandler extends SimpleChannelInboundHandler<HttpObj
         responseContent.setLength(0);
 
         // Decide whether to close the connection or not.
-        boolean close = request.headers().contains(CONNECTION, HttpHeaders.Values.CLOSE, true)
+        boolean close = HttpHeaders.Values.CLOSE.equalsIgnoreCase(request.headers().get(CONNECTION))
                 || request.getProtocolVersion().equals(HttpVersion.HTTP_1_0)
-                && !request.headers().contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);
+                && !HttpHeaders.Values.KEEP_ALIVE.equalsIgnoreCase(request.headers().get(CONNECTION));
 
         // Build the response object.
         FullHttpResponse response = new DefaultFullHttpResponse(

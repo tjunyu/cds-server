@@ -1,5 +1,6 @@
 package com.wangyin.cds.server.modules.monitor;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -10,13 +11,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.wangyin.cds.server.persistence.*;
+import com.wangyin.cds.server.persistence.model.*;
 import org.apache.ibatis.session.SqlSession;
 
 import com.wangyin.cds.server.modules.monitor.dto.RestFulDTO;
-import com.wangyin.cds.server.persistence.DbMonitorDAO;
-import com.wangyin.cds.server.persistence.DbMonitorInstanceDAO;
-import com.wangyin.cds.server.persistence.model.DbMonitor;
-import com.wangyin.cds.server.persistence.model.DbMonitorInstance;
 import com.wangyin.cds.server.persistence.templete.IAction;
 import com.wangyin.cds.server.persistence.templete.Operation;
 import com.wangyin.cds.server.persistence.templete.ResultInfo;
@@ -90,26 +89,40 @@ public class DbMonitorInfo {
 		ResultInfo resultInfo = Operation.callBack(new IAction() {
 			public Object doAction(SqlSession session) {
 				DbMonitorInstanceDAO dbMonitorInstanceDAO = session
-						.getMapper(DbMonitorInstanceDAO.class);
-				
+                        .getMapper(DbMonitorInstanceDAO.class);
+                DbAlarmDAO dbAlarmDAO = session
+                        .getMapper(DbAlarmDAO.class);
+                DbAlarmInstanceDAO dbAlarmInstanceDAO = session
+                        .getMapper(DbAlarmInstanceDAO.class);
+                DbInfoDAO dbInfoDAO = session
+                        .getMapper(DbInfoDAO.class);
+
 				DbMonitorDAO dbMonitorDAO = session
 						.getMapper(DbMonitorDAO.class);
-				
+				boolean alarmTarget = false;
+                String alarmStr = "";
 				DbMonitor dbMonitor = dbMonitorDAO.load(dbMonitorInstance.getDbMinitorId());
-				
+                dbMonitorInstance.setIntegral(1);//积分
 				if(dbMonitorInstance.getErrorNum()>dbMonitor.getErrorNumUpper()){
 					dbMonitorInstance.setStatus(DbMonitor.CRITICALl);
+                    alarmTarget = true;
+                    alarmStr = "监控机无响应";
 				}else{
 					if(dbMonitorInstance.getMonitorValue()<=dbMonitor.getThresholdLower()){
 						dbMonitorInstance.setStatus(DbMonitor.OK);
-						dbMonitorInstance.setAlarmMsg("监控指标值："+dbMonitorInstance.getMonitorValue()+"，正常");
+						dbMonitorInstance.setAlarmMsg("监控指标值：" + dbMonitorInstance.getMonitorValue() + "，正常");
 					}else if(dbMonitorInstance.getMonitorValue()>dbMonitor.getThresholdLower()&&dbMonitorInstance.getMonitorValue()<=dbMonitor.getThresholdUpper()){
 						dbMonitorInstance.setStatus(DbMonitor.WARNING);
-						dbMonitorInstance.setAlarmMsg("监控指标值："+dbMonitorInstance.getMonitorValue()+"，警告");
+						dbMonitorInstance.setAlarmMsg("监控指标值：" + dbMonitorInstance.getMonitorValue() + "，警告");
+                        alarmTarget = true;
+                        alarmStr = "监控机指标异常";
 					}
+
 				}
-				dbMonitorInstance.setIntegral(1);//积分
-				dbMonitorInstanceDAO.insert(dbMonitorInstance);
+                dbMonitorInstanceDAO.insert(dbMonitorInstance);
+                if(alarmTarget){//插入报警信息
+                    insertAlarm(dbMonitorInstance, alarmStr,dbAlarmDAO,dbAlarmInstanceDAO,dbInfoDAO);
+                }
 				return null;
 			}
 		});
@@ -123,5 +136,23 @@ public class DbMonitorInfo {
 		return restFulDTO;
 
 	}
+
+    private void insertAlarm(DbMonitorInstance dbMonitorInstance, String s, DbAlarmDAO dbAlarmDAO, DbAlarmInstanceDAO dbAlarmInstanceDAO, DbInfoDAO dbInfoDAO) {
+        DbInfo dbInfo = dbInfoDAO.load(dbMonitorInstance.getDbInfoId());
+        DbAlarm dbAlarm = new DbAlarm();
+        dbAlarm.setDbMonitorGroupId(dbInfo.getDbMonitorGroupId());
+        List<DbAlarm> dbAlarms = dbAlarmDAO.query(dbAlarm);
+        if(dbAlarms.size()>0) {
+            DbAlarm dbAlarm1 = dbAlarms.get(0);
+            DbAlarmInstance dbAlarmInstance = new DbAlarmInstance();
+            dbAlarmInstance.setDbAlarmId(dbAlarm1.getId());
+            dbAlarmInstance.setDbMinitorInstanceId(dbMonitorInstance.getId());
+            dbAlarmInstance.setAlarmMsg(s);
+            dbAlarmInstance.setCreationDate(new Date());
+            dbAlarmInstance.setDbInfoId(dbMonitorInstance.getDbInfoId());
+            dbAlarmInstance.setAlarmStatus(dbMonitorInstance.getStatus());
+            dbAlarmInstanceDAO.insert(dbAlarmInstance);
+        }
+    }
 
 }

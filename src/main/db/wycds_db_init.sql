@@ -15,7 +15,7 @@ DROP DATABASE IF EXISTS `wycds`;
 CREATE DATABASE IF NOT EXISTS `wycds` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 USE `wycds`;
 
--- 导出  表 mydb.app 结构
+-- 导出  表 mydb.cds_session 结构
 DROP TABLE IF EXISTS `cds_session`;
 CREATE TABLE IF NOT EXISTS `cds_session` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -35,7 +35,6 @@ DROP TABLE IF EXISTS `app`;
 CREATE TABLE IF NOT EXISTS `app` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `app_name` varchar(60) NOT NULL COMMENT '应用名,非空',
-  `app_key` varchar(60) NOT NULL COMMENT '应用key,非空',
   `owner` varchar(45) NOT NULL COMMENT '负责人,非空',
   `phone` varchar(45) DEFAULT NULL COMMENT '联系电话,可空',
   `email` varchar(45) DEFAULT NULL COMMENT '邮箱,可空',
@@ -142,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `db_host_group` (
   `modified_by` varchar(20) NOT NULL COMMENT '最后修改人,非空',
   `modification_date` datetime NOT NULL COMMENT '最后修改时间,非空',
   `delete_status` varchar(10) NOT NULL DEFAULT 'false' COMMENT '删除状态(true已删除,false未删除),非空',
-  `db_type` varchar(20) NOT NULL,
+  `db_type` varchar(20) NOT NULL COMMENT 'MYSQL/ORACLE,非空',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据库群组表';
 
@@ -161,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `db_unit` (
   `db_name` varchar(60) NOT NULL COMMENT '数据库名称',
   `user_name` varchar(60) NOT NULL COMMENT '数据库密码',
   `passwd` varchar(60) NOT NULL COMMENT '数据库密码',
-  `db_type` varchar(20) NOT NULL,
+  `db_type` varchar(20) NOT NULL COMMENT 'MYSQL/ORACLE,非空',
   `master_or_slave` varchar(20) NOT NULL COMMENT 'Master/Slave主备,非空',
   `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
   `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
@@ -283,15 +282,15 @@ CREATE TABLE IF NOT EXISTS `db_monitor_group` (
   `modified_by` varchar(20) NOT NULL COMMENT '最后修改人,非空',
   `modification_date` datetime NOT NULL COMMENT '最后修改时间,非空',
   `delete_status` varchar(10) NOT NULL DEFAULT 'false' COMMENT '删除状态(true已删除,false未删除),非空',
-  `db_type` varchar(20) NOT NULL,
+  `db_type` varchar(20) NOT NULL COMMENT 'MYSQL/ORACLE,非空',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据库基本信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='监控组基本信息表';
 
 -- 导出  表 mydb.dbinfo 结构
 DROP TABLE IF EXISTS `db_info`;
 CREATE TABLE IF NOT EXISTS `db_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `db_monitor_group_id` int(11) NOT NULL,
+  `db_monitor_group_id` int(11) NOT NULL COMMENT '监控组id',
   `ip` varchar(20) NOT NULL COMMENT 'ip地址,非空',
   `port` int(11) NOT NULL COMMENT '端口号,非空',
   `db_server_id` int(32) DEFAULT NULL COMMENT 'MySQL服务器ServerId',
@@ -300,10 +299,10 @@ CREATE TABLE IF NOT EXISTS `db_info` (
   `modified_by` varchar(20) NOT NULL COMMENT '最后修改人,非空',
   `modification_date` datetime NOT NULL COMMENT '最后修改时间,非空',
   `delete_status` varchar(10) NOT NULL DEFAULT 'false' COMMENT '删除状态(true已删除,false未删除),非空',
-  `db_type` varchar(20) NOT NULL,
+  `db_type` varchar(20) NOT NULL COMMENT 'MYSQL/ORACLE,非空',
   `master_or_slave` varchar(20) NOT NULL COMMENT 'Master/Slave主备,非空',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据库基本信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='监控数据库基本信息表';
 
 
 /*Table structure for table `db_monitor` */
@@ -312,7 +311,7 @@ DROP TABLE IF EXISTS `db_monitor`;
 
 CREATE TABLE `db_monitor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `db_monitor_group_Id` int(11) NOT NULL COMMENT '数据库组id,非空',
+  `db_monitor_group_Id` int(11) NOT NULL COMMENT '监控组id,非空',
   `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
   `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
   `modified_by` varchar(20) NOT NULL COMMENT '最后修改人,非空',
@@ -320,50 +319,143 @@ CREATE TABLE `db_monitor` (
   `delete_status` varchar(10) NOT NULL DEFAULT 'false' COMMENT '删除状态(true已删除,false未删除),非空',
   `monitor_item` varchar(50) NOT NULL COMMENT '监控项',
   `monitor_item_desc` varchar(500) COMMENT '监控项描述',
-  `monitor_script_type` varchar(500) COMMENT '监控脚本类型(python、shell)',
-  `monitor_script_path` varchar(500) COMMENT '监控脚本下载路径',
+  `monitor_script_type` varchar(50) COMMENT '监控脚本类型(python、shell)',
+  `monitor_script_path` varchar(100) COMMENT '监控脚本下载路径',
   `check_interval` int(8) NOT NULL COMMENT '检测间隔时间单位s',
   `error_num_upper` int(2) NOT NULL COMMENT '允许最大连续错误次数',
-  `check_times` int(2) NOT NULL COMMENT '监控次数',
+  `check_times` int(2)  COMMENT '监控次数',
   `threshold_upper` int(8) COMMENT '阈值上限',
   `threshold_lower` int(8) COMMENT '阈值下限',
-  `power` DOUBLE(3,3) NOT NULL COMMENT '权重',
+  `power` DOUBLE(3,2) NOT NULL COMMENT '权重',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据库监控配置表';
-
-DROP TABLE IF EXISTS `db_event`;
-
-CREATE TABLE `db_event` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_id` int(11) NOT NULL,
-  `event_type` varchar(50) NOT NULL COMMENT '事件类型',
-  `db_monitor_group_id` int(11) NOT NULL COMMENT '监控组id,非空',
-  `db_info_Id` int(11) NOT NULL COMMENT '监控数据库id,非空',
-  `db_monitor_Id` int(11) NOT NULL COMMENT '监控项id,非空',
-  `ip` varchar(20) NOT NULL COMMENT 'ip地址,非空',
-  `port` int(11) NOT NULL COMMENT '端口号,非空',
-  `db_type` varchar(50) NOT NULL COMMENT '事件类型',
-  `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
-  `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='事件表';
-
 
 /*Table structure for table `db_monitor_instance` */
 
 DROP TABLE IF EXISTS `db_monitor_instance`;
 CREATE TABLE `db_monitor_instance` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `db_minitor_Id` int(11) NOT NULL COMMENT '数据库组id,非空',
+  `db_info_Id` int(11) NOT NULL COMMENT '监控数据库id,非空',
+  `db_minitor_Id` int(11) NOT NULL COMMENT '监控项id,非空',
   `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
   `monitor_item` varchar(50) NOT NULL COMMENT '监控项',
   `status` varchar(20) NOT NULL COMMENT '状态：OK（正常）、WARNING（警告）、CRITICALl（宕机）',
-  `monitor_value` int(11) NOT NULL COMMENT '监控值',
+  `monitor_value` int(11)  COMMENT '监控值',
   `integral` int(3) NOT NULL COMMENT '积分（总分100）',
   `error_num` int(2) NOT NULL COMMENT '连续错误次数',
   `alarm_msg` varchar(200)  COMMENT '报警内容',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='监控实例表';
+
+/*Table structure for table `db_event` */
+
+DROP TABLE IF EXISTS `db_event`;
+
+CREATE TABLE `db_event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` bigint(16) NOT NULL COMMENT '事件ID',
+  `event_type` varchar(50) NOT NULL COMMENT '事件类型',
+  `db_monitor_group_id` int(11) NOT NULL COMMENT '监控组id,非空',
+  `db_info_Id` int(11) NOT NULL COMMENT '监控数据库id,非空',
+  `db_monitor_Id` int(11) NOT NULL COMMENT '监控项id,非空',
+  `ip` varchar(20) NOT NULL COMMENT 'ip地址,非空',
+  `port` int(11) NOT NULL COMMENT '端口号,非空',
+  `db_type` varchar(50) NOT NULL COMMENT '数据库类型MYSQL、ORACLE',
+  `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
+  `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='事件表';
+
+/*Table structure for table `db_alarm` */
+
+DROP TABLE IF EXISTS `db_alarm`;
+
+CREATE TABLE `db_alarm` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `db_monitor_group_id` int(16) NOT NULL COMMENT '监控数据库组ID',
+  `user_group_id` int(16) NOT NULL COMMENT '联系人组ID',
+  `alarm_type` int(11) NOT NULL COMMENT '报警类型SMS;MAIL，可以多选,非空',
+  `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
+  `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
+  `modified_by` varchar(20) NOT NULL COMMENT '最后修改人,非空',
+  `modification_date` datetime NOT NULL COMMENT '最后修改时间,非空',
+  `delete_status` varchar(10) NOT NULL DEFAULT 'false' COMMENT '删除状态(true已删除,false未删除),非空',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报警配置表';
+
+/*Table structure for table `db_alarm_instance` */
+
+DROP TABLE IF EXISTS `db_alarm_instance`;
+
+CREATE TABLE `db_alarm_instance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `db_alarm_id` int(11) NOT NULL COMMENT '报警配置ID',
+  `db_info_id` int(11) NOT NULL COMMENT '监控数据库id,非空',
+  `db_minitor_instance_id` int(11) NOT NULL COMMENT '监控实例id,非空',
+  `alarm_msg` varchar(500) NOT NULL COMMENT '报警信息,非空',
+  `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
+  `alarm_status` varchar(20) NOT NULL COMMENT '状态：WARNING（警告）、CRITICALl（宕机）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报警实例表';
+
+
+-- 导出  表 wycds.r_users_user_group 结构
+DROP TABLE IF EXISTS `r_users_user_group`;
+CREATE TABLE IF NOT EXISTS `r_users_user_group` (
+  `login_id` varchar(20) NOT NULL COMMENT '登陆id,非空',
+  `user_group_id` int(11) NOT NULL COMMENT '用户组id,非空',
+  PRIMARY KEY (`login_id`,`user_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与用户组关联';
+
+-- 数据导出被取消选择。
+
+
+-- 导出  表 wycds.user_group 结构
+DROP TABLE IF EXISTS `user_group`;
+CREATE TABLE IF NOT EXISTS `user_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_group_name` varchar(20) NOT NULL COMMENT '用户组名,非空',
+  `source` varchar(20) NOT NULL COMMENT '来源,非空',
+  `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
+  `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
+  `modified_by` varchar(20) NOT NULL COMMENT '最后修改人,非空',
+  `modification_date` datetime NOT NULL COMMENT '最后修改时间,非空',
+  `delete_status` varchar(10) NOT NULL DEFAULT 'false' COMMENT '删除状态(true已删除,false未删除),非空',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户组表';
+
+-- 数据导出被取消选择。
+
+
+-- 导出  表 wycds.users 结构
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `login_id` varchar(20) NOT NULL COMMENT '登录名',
+  `user_name` varchar(20) NOT NULL COMMENT '姓名,非空',
+  `login_password` varchar(60) DEFAULT NULL COMMENT '登陆密码,可空',
+  `source` varchar(20) NOT NULL COMMENT '来源,非空',
+  `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
+  `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
+  `modified_by` varchar(20) NOT NULL COMMENT '最后修改人,非空',
+  `modification_date` datetime NOT NULL COMMENT '最后修改时间,非空',
+  `delete_status` varchar(10) NOT NULL DEFAULT 'false' COMMENT '删除状态(true已删除,false未删除),非空',
+  PRIMARY KEY (`login_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
+
+-- 导出  表 wycds.user_contact_info 结构
+DROP TABLE IF EXISTS `user_contact_info`;
+CREATE TABLE IF NOT EXISTS `user_contact_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `login_id` varchar(20) NOT NULL COMMENT '登录名',
+  `contact_type` varchar(20) NOT NULL COMMENT '联系类型:PHONE/EMAIL/QQ',
+  `contact_value` varchar(20) NOT NULL COMMENT '联系方式具体值',
+  `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
+  `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
+  `modified_by` varchar(20) NOT NULL COMMENT '最后修改人,非空',
+  `modification_date` datetime NOT NULL COMMENT '最后修改时间,非空',
+  `delete_status` varchar(10) NOT NULL DEFAULT 'false' COMMENT '删除状态(true已删除,false未删除),非空',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户联系方式表';
 
 -- 数据导出被取消选择。
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

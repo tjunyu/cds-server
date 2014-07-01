@@ -28,5 +28,7 @@
         <mapper resource="com/wangyin/cds/server/persistence/model/App.xml"/>
         <mapper resource="com/wangyin/cds/server/persistence/model/CdsSession.xml"/>
         <mapper resource="com/wangyin/cds/server/persistence/model/DbEvent.xml"/>
+        <mapper resource="com/wangyin/cds/server/persistence/model/DbAlarm.xml"/>
+        <mapper resource="com/wangyin/cds/server/persistence/model/DbAlarmInstance.xml"/>
     </mappers>
 </configuration>

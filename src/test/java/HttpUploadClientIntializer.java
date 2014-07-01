@@ -17,20 +17,31 @@
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.example.securechat.SecureChatSslContextFactory;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpContentDecompressor;
+import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
+import javax.net.ssl.SSLEngine;
+
 public class HttpUploadClientIntializer extends ChannelInitializer<SocketChannel> {
+    private final boolean ssl;
 
-
-    public HttpUploadClientIntializer() {
+    public HttpUploadClientIntializer(boolean ssl) {
+        this.ssl = ssl;
     }
 
     @Override
-    public void initChannel(SocketChannel ch) {
+    public void initChannel(SocketChannel ch) throws Exception {
+        // Create a default pipeline implementation.
         ChannelPipeline pipeline = ch.pipeline();
 
+        if (ssl) {
+            SSLEngine engine = SecureChatSslContextFactory.getClientContext().createSSLEngine();
+            engine.setUseClientMode(true);
+            pipeline.addLast("ssl", new SslHandler(engine));
+        }
 
         pipeline.addLast("codec", new HttpClientCodec());
 
