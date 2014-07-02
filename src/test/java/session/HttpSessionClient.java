@@ -14,6 +14,7 @@ package session;/*
  * under the License.
  */
 
+import com.wangyin.cds.server.Predefined;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
@@ -49,19 +50,10 @@ public class HttpSessionClient {
     }
 
     public void run() throws Exception {
-        String postSimple, postFile, get;
-        if (baseUri.endsWith("/")) {
-            postSimple = baseUri + "formpost";
-            postFile = baseUri + "formpostmultipart";
-            get = baseUri + "formget";
-        } else {
-            postSimple = baseUri + "/formpost";
-            postFile = baseUri + "/formpostmultipart";
-            get = baseUri + "/formget";
-        }
+
         URI uriSimple;
         try {
-            uriSimple = new URI(postSimple);
+            uriSimple = new URI(baseUri);
         } catch (URISyntaxException e) {
             logger.log(Level.WARNING, "Invalid URI syntax", e);
             return;
@@ -84,18 +76,7 @@ public class HttpSessionClient {
 
         boolean ssl = "https".equalsIgnoreCase(scheme);
 
-        URI uriFile;
-        try {
-            uriFile = new URI(postFile);
-        } catch (URISyntaxException e) {
-            logger.log(Level.WARNING, "Error: ", e);
-            return;
-        }
-        File file = new File(filePath);
-        if (!file.canRead()) {
-            logger.log(Level.WARNING, "A correct path is needed");
-            return;
-        }
+
 
         // Configure the client.
         EventLoopGroup group = new NioEventLoopGroup();
@@ -110,24 +91,15 @@ public class HttpSessionClient {
 
         try {
             Bootstrap b = new Bootstrap();
-            b.group(group).channel(NioSocketChannel.class).handler(new HttpUploadClientIntializer(ssl));
+            b.group(group).channel(NioSocketChannel.class).handler(new HttpSessionClientIntializer(ssl));
 
             // Simple Get form: no factory used (not usable)
-            List<Entry<String, String>> headers = formGet(b, host, port, get, uriSimple);
+            List<Entry<String, String>> headers = formGet(b, host, port, baseUri, uriSimple);
             if (headers == null) {
                 factory.cleanAllHttpDatas();
                 return;
             }
 
-            // Simple Post form: factory used for big attributes
-            List<InterfaceHttpData> bodylist = formPost(b, host, port, uriSimple, file, factory, headers);
-            if (bodylist == null) {
-                factory.cleanAllHttpDatas();
-                return;
-            }
-
-            // Multipart Post form: factory used
-            formPostMultipart(b, host, port, uriFile, factory, headers, bodylist);
         } finally {
             // Shut down executor threads to exit.
             group.shutdownGracefully();
@@ -184,6 +156,8 @@ public class HttpSessionClient {
 
         headers.set(HttpHeaders.Names.COOKIE, ClientCookieEncoder.encode(new DefaultCookie("my-cookie", "foo"),
                 new DefaultCookie("another-cookie", "bar")));
+        headers.set(Predefined.HTTP_HEAD_APP_ID, "123");
+        headers.set(Predefined.HTTP_HEAD_APP_KEY, "123");
 
         // send request
         List<Entry<String, String>> entries = headers.entries();
@@ -357,7 +331,7 @@ public class HttpSessionClient {
             baseUri = args[0];
             filePath = args[1];
         } else {
-            baseUri = "http://localhost:8088/upFile";
+            baseUri = "http://localhost:8088/rest/";
 
             File f = File.createTempFile("upload", ".txt");
             BufferedWriter bw = new BufferedWriter(new FileWriter(f));

@@ -10,7 +10,7 @@ public class DbAlarm implements Serializable {
     private Integer id;
     private Integer dbMonitorGroupId;
     private Integer userGroupId;
-    private Integer alarmType;
+    private String alarmType;
     private String createBy;
     private Date creationDate;
     private String modifiedBy;
@@ -41,11 +41,11 @@ public class DbAlarm implements Serializable {
         this.userGroupId = userGroupId;
     }
 
-    public Integer getAlarmType() {
+    public String getAlarmType() {
         return this.alarmType;
     }
 
-    public void setAlarmType(Integer alarmType) {
+    public void setAlarmType(String alarmType) {
         this.alarmType = alarmType;
     }
 

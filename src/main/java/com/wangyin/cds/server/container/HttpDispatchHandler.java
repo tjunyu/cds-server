@@ -1,25 +1,23 @@
 package com.wangyin.cds.server.container;
 
+import com.wangyin.cds.server.Predefined;
+import com.wangyin.cds.server.ServerNode;
+import com.wangyin.cds.server.session.ICdsSession;
+import com.wangyin.cds.server.session.RestAuth;
+import com.wangyin.cds.server.session.SessionHolder;
+import com.wangyin.cds.server.session.SessionManager;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import javax.ws.rs.core.Application;
-
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import com.wangyin.cds.server.Predefined;
-import com.wangyin.cds.server.ServerNode;
-import com.wangyin.cds.server.session.ICdsSession;
-import com.wangyin.cds.server.session.SessionHolder;
-import com.wangyin.cds.server.session.SessionManager;
+import javax.ws.rs.core.Application;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**   
  * @author wy   
@@ -66,7 +64,7 @@ public class HttpDispatchHandler extends SimpleChannelInboundHandler<FullHttpReq
 				bind(SessionHolder.class).to(ICdsSession.class);
 			}
 		});
-//		app.register(RestAuth.class);
+		app.register(RestAuth.class);
 		app.property(Predefined.PROP_SESSION_MGR, sessionManager);
 		try {
 			app.property(Predefined.PROP_BASE_URI, new URI("http://"+ServerNode.http_config.get("ip")+":"+ServerNode.http_config.get("port")+"/rest"));

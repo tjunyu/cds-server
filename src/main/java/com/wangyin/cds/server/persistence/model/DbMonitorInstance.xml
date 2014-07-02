@@ -111,7 +111,7 @@
         where id=#{dbMonitorInstance.id}
     </update>
 
-    <insert id="insert" keyProperty="dbMonitorInstance.id">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="dbMonitorInstance.id">
         insert into DB_MONITOR_INSTANCE(
         id
         <if test="dbMonitorInstance.dbMinitorId!=null">

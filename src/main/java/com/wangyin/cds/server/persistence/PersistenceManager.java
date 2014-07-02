@@ -16,7 +16,7 @@ public class PersistenceManager {
 
 	public PersistenceManager() {
 		try {
-			reader = Resources.getResourceAsReader("Configuration.xml");
+			reader = Resources.getResourceAsReader("configuration.xml");
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 		} catch (Exception e) {
 			e.printStackTrace();

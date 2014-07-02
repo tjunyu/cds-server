@@ -374,7 +374,7 @@ CREATE TABLE `db_alarm` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `db_monitor_group_id` int(16) NOT NULL COMMENT '监控数据库组ID',
   `user_group_id` int(16) NOT NULL COMMENT '联系人组ID',
-  `alarm_type` int(11) NOT NULL COMMENT '报警类型SMS;MAIL，可以多选,非空',
+  `alarm_type` varchar(11) NOT NULL COMMENT '报警类型SMS;MAIL，可以多选,非空',
   `create_by` varchar(20) NOT NULL COMMENT '创建人,非空',
   `creation_date` datetime NOT NULL COMMENT '创建时间,非空',
   `modified_by` varchar(20) NOT NULL COMMENT '最后修改人,非空',

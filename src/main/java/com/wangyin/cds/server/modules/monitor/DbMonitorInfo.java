@@ -121,7 +121,7 @@ public class DbMonitorInfo {
 				}
                 dbMonitorInstanceDAO.insert(dbMonitorInstance);
                 if(alarmTarget){//插入报警信息
-                    insertAlarm(dbMonitorInstance, alarmStr,dbAlarmDAO,dbAlarmInstanceDAO,dbInfoDAO);
+                    insertAlarm(dbMonitorInstance,dbAlarmDAO,dbAlarmInstanceDAO,dbInfoDAO);
                 }
 				return null;
 			}
@@ -137,7 +137,7 @@ public class DbMonitorInfo {
 
 	}
 
-    private void insertAlarm(DbMonitorInstance dbMonitorInstance, String s, DbAlarmDAO dbAlarmDAO, DbAlarmInstanceDAO dbAlarmInstanceDAO, DbInfoDAO dbInfoDAO) {
+    private void insertAlarm(DbMonitorInstance dbMonitorInstance, DbAlarmDAO dbAlarmDAO, DbAlarmInstanceDAO dbAlarmInstanceDAO, DbInfoDAO dbInfoDAO) {
         DbInfo dbInfo = dbInfoDAO.load(dbMonitorInstance.getDbInfoId());
         DbAlarm dbAlarm = new DbAlarm();
         dbAlarm.setDbMonitorGroupId(dbInfo.getDbMonitorGroupId());
@@ -147,7 +147,7 @@ public class DbMonitorInfo {
             DbAlarmInstance dbAlarmInstance = new DbAlarmInstance();
             dbAlarmInstance.setDbAlarmId(dbAlarm1.getId());
             dbAlarmInstance.setDbMinitorInstanceId(dbMonitorInstance.getId());
-            dbAlarmInstance.setAlarmMsg(s);
+            dbAlarmInstance.setAlarmMsg(dbMonitorInstance.getAlarmMsg());
             dbAlarmInstance.setCreationDate(new Date());
             dbAlarmInstance.setDbInfoId(dbMonitorInstance.getDbInfoId());
             dbAlarmInstance.setAlarmStatus(dbMonitorInstance.getStatus());
